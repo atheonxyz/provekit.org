@@ -1,12 +1,15 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro';
+import TopBar from '~/components/nav/TopBar.astro';
 ---
 
 <BaseLayout
   title="Provekit — Client-side zero-knowledge, built for the real world"
   description="Provekit is a lightweight, modular ZK toolkit designed from the ground up for client-side execution."
 >
-  <header class="pk-gutter pt-6"></header>
+  <header class="pk-gutter pt-6">
+    <TopBar />
+  </header>
   <main id="main">
     <section aria-labelledby="hero-title" class="pk-gutter"></section>
     <section aria-labelledby="install-title" class="pk-gutter"></section>
