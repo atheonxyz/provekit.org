@@ -21,6 +21,7 @@
 ### Task 1: Preserve existing artifacts and initialize the repo
 
 **Files:**
+
 - Create: `reference/Provekit Landing.html` (move)
 - Create: `reference/colors_and_type.css` (move)
 - Create: `.gitignore`
@@ -109,6 +110,7 @@ git commit -m "chore: initialize repo with preserved Figma reference and license
 ### Task 2: Scaffold the Astro project
 
 **Files:**
+
 - Create: `package.json`
 - Create: `astro.config.mjs`
 - Create: `tsconfig.json`
@@ -237,6 +239,7 @@ git commit -m "feat: scaffold astro 4 + tailwind v4 + sitemap baseline"
 ### Task 3: Tooling — ESLint, Prettier, EditorConfig
 
 **Files:**
+
 - Create: `.editorconfig`
 - Create: `.prettierrc.json`
 - Create: `.prettierignore`
@@ -268,9 +271,7 @@ trim_trailing_whitespace = false
   "trailingComma": "all",
   "semi": true,
   "plugins": ["prettier-plugin-astro", "prettier-plugin-tailwindcss"],
-  "overrides": [
-    { "files": "*.astro", "options": { "parser": "astro" } }
-  ]
+  "overrides": [{ "files": "*.astro", "options": { "parser": "astro" } }]
 }
 ```
 
@@ -322,6 +323,7 @@ git commit -m "chore: add eslint, prettier, and editorconfig"
 ### Task 4: Design tokens migrated to Tailwind v4 `@theme`
 
 **Files:**
+
 - Create: `src/styles/tokens.css`
 - Create: `src/styles/global.css`
 
@@ -337,8 +339,8 @@ git commit -m "chore: add eslint, prettier, and editorconfig"
   /* Ink + surfaces */
   --color-ink: #2d2d2b;
   --color-ink-alt: #2d2d30;
-  --color-mute: #6e6e6e;       /* contrast-safe body mute */
-  --color-mute-soft: #949494;  /* decorative-only */
+  --color-mute: #6e6e6e; /* contrast-safe body mute */
+  --color-mute-soft: #949494; /* decorative-only */
   --color-mute-2: #808080;
   --color-mute-3: #b7b7b7;
 
@@ -506,7 +508,9 @@ git commit -m "chore: add eslint, prettier, and editorconfig"
     letter-spacing: 0.08em;
     text-transform: uppercase;
     cursor: pointer;
-    transition: background 120ms var(--ease-pk), opacity 120ms var(--ease-pk);
+    transition:
+      background 120ms var(--ease-pk),
+      opacity 120ms var(--ease-pk);
   }
   .pk-btn--primary {
     background: var(--color-brand);
@@ -573,7 +577,9 @@ git commit -m "chore: add eslint, prettier, and editorconfig"
   .pk-reveal {
     opacity: 0;
     transform: translateY(8px);
-    transition: opacity 600ms var(--ease-pk), transform 600ms var(--ease-pk);
+    transition:
+      opacity 600ms var(--ease-pk),
+      transform 600ms var(--ease-pk);
   }
   .pk-reveal.is-visible {
     opacity: 1;
@@ -596,6 +602,7 @@ git commit -m "feat: migrate design tokens to tailwind v4 @theme"
 ### Task 5: BaseLayout with fonts and meta
 
 **Files:**
+
 - Create: `src/layouts/BaseLayout.astro`
 - Create: `public/favicon.svg`
 
@@ -632,6 +639,7 @@ const {
   ogImage = '/og-image.png',
 } = Astro.props;
 ---
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -657,19 +665,25 @@ const {
     <meta name="twitter:image" content={new URL(ogImage, canonical).toString()} />
 
     <!-- Structured data -->
-    <script type="application/ld+json" set:html={JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'SoftwareApplication',
-      name: 'ProveKit',
-      applicationCategory: 'DeveloperApplication',
-      operatingSystem: 'Cross-platform',
-      description,
-      url: canonical,
-      license: 'https://opensource.org/licenses/MIT',
-    })} />
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'SoftwareApplication',
+        name: 'ProveKit',
+        applicationCategory: 'DeveloperApplication',
+        operatingSystem: 'Cross-platform',
+        description,
+        url: canonical,
+        license: 'https://opensource.org/licenses/MIT',
+      })}
+    />
   </head>
   <body>
-    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-white focus:px-3 focus:py-2 focus:shadow">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded focus:bg-white focus:px-3 focus:py-2 focus:shadow"
+    >
       Skip to content
     </a>
     <slot />
@@ -713,6 +727,7 @@ git commit -m "feat: base layout with fonts, meta, and JSON-LD"
 ### Task 6: Page shell with section landmarks
 
 **Files:**
+
 - Create: `src/pages/index.astro`
 
 - [ ] **Step 1: Create `src/pages/index.astro` (placeholder shell — components are filled in Phase 3)**
@@ -721,6 +736,7 @@ git commit -m "feat: base layout with fonts, meta, and JSON-LD"
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro';
 ---
+
 <BaseLayout
   title="Provekit — Client-side zero-knowledge, built for the real world"
   description="Provekit is a lightweight, modular ZK toolkit designed from the ground up for client-side execution."
@@ -762,6 +778,7 @@ git commit -m "feat: index.astro shell with section landmarks"
 ### Task 7: TopBar component
 
 **Files:**
+
 - Create: `src/components/nav/TopBar.astro`
 - Modify: `src/pages/index.astro` — add `<TopBar />` inside `<header>`
 
@@ -769,14 +786,14 @@ git commit -m "feat: index.astro shell with section landmarks"
 
 ```astro
 ---
+
 ---
+
 <nav class="flex items-center justify-between" aria-label="Primary">
   <a href="/" class="pk-mono text-sm font-medium tracking-[0.12em]" aria-label="Provekit home">
     PROVEKIT
   </a>
-  <a href="#" class="pk-pill" data-todo="docs">
-    DOCS
-  </a>
+  <a href="#" class="pk-pill" data-todo="docs"> DOCS </a>
 </nav>
 ```
 
@@ -808,6 +825,7 @@ git commit -m "feat(nav): top bar with wordmark and docs pill"
 ### Task 8: Hero section
 
 **Files:**
+
 - Create: `src/components/hero/Hero.astro`
 - Modify: `src/pages/index.astro`
 
@@ -815,9 +833,15 @@ git commit -m "feat(nav): top bar with wordmark and docs pill"
 
 ```astro
 ---
+
 ---
+
 <div class="relative pt-24 pb-32 md:pt-32 md:pb-40">
-  <div class="pk-bloom pk-bloom--cyan absolute -right-20 bottom-0 h-[60%] w-[55%]" aria-hidden="true"></div>
+  <div
+    class="pk-bloom pk-bloom--cyan absolute -right-20 bottom-0 h-[60%] w-[55%]"
+    aria-hidden="true"
+  >
+  </div>
 
   <div class="relative max-w-4xl">
     <p class="pk-eyebrow pk-reveal">INTRODUCING PROVEKIT</p>
@@ -825,7 +849,8 @@ git commit -m "feat(nav): top bar with wordmark and docs pill"
       Client-side zero-knowledge,<br />built for the real world.
     </h1>
     <p class="pk-body pk-reveal mt-8 max-w-2xl">
-      Provekit is a lightweight, modular ZK toolkit designed from the ground up for client-side execution.
+      Provekit is a lightweight, modular ZK toolkit designed from the ground up for client-side
+      execution.
     </p>
     <div class="pk-reveal mt-10 flex flex-wrap gap-3">
       <a href="#" class="pk-btn pk-btn--primary" data-todo="repo">
@@ -841,10 +866,13 @@ git commit -m "feat(nav): top bar with wordmark and docs pill"
 - [ ] **Step 2: Wire into `src/pages/index.astro`**
 
 Add to imports:
+
 ```astro
 import Hero from '~/components/hero/Hero.astro';
 ```
+
 Replace the empty `<section aria-labelledby="hero-title">`:
+
 ```astro
 <section aria-labelledby="hero-title" class="pk-gutter">
   <Hero />
@@ -863,6 +891,7 @@ git commit -m "feat(hero): headline, sub, and ctas with cyan bloom"
 ### Task 9: InstallScript section + copy-to-clipboard
 
 **Files:**
+
 - Create: `src/scripts/copy.ts`
 - Create: `src/components/install/InstallScript.astro`
 - Test: `src/scripts/copy.test.ts`
@@ -976,6 +1005,7 @@ pnpm test
 ---
 const command = 'cargo install provekit-cli';
 ---
+
 <div class="grid gap-12 py-24 md:grid-cols-2 md:items-center">
   <div>
     <p class="pk-eyebrow pk-reveal">INSTALL SCRIPT</p>
@@ -983,13 +1013,18 @@ const command = 'cargo install provekit-cli';
       To install Provekit, run this simple install script.
     </h2>
     <p class="pk-body pk-reveal mt-6 max-w-md">
-      Discover Provekit. Check out the comprehensive guide for a seamless introduction and installation.
+      Discover Provekit. Check out the comprehensive guide for a seamless introduction and
+      installation.
     </p>
     <a href="#" class="pk-btn pk-btn--primary pk-reveal mt-8" data-todo="guide">Read Guide</a>
   </div>
 
-  <figure class="pk-reveal relative overflow-hidden rounded-md border border-[color:var(--color-line)] bg-white">
-    <figcaption class="flex items-center justify-between border-b border-[color:var(--color-line)] px-4 py-3">
+  <figure
+    class="pk-reveal relative overflow-hidden rounded-md border border-[color:var(--color-line)] bg-white"
+  >
+    <figcaption
+      class="flex items-center justify-between border-b border-[color:var(--color-line)] px-4 py-3"
+    >
       <span class="pk-mono text-xs text-[color:var(--color-mute)]">BASH</span>
       <button
         type="button"
@@ -1000,7 +1035,8 @@ const command = 'cargo install provekit-cli';
         <span data-copy-label>Copy</span>
       </button>
     </figcaption>
-    <pre class="overflow-x-auto px-5 py-6 font-mono text-base text-[color:var(--color-ink)]"><code>{command}</code></pre>
+    <pre
+      class="overflow-x-auto px-5 py-6 font-mono text-base text-[color:var(--color-ink)]"><code>{command}</code></pre>
   </figure>
 </div>
 ```
@@ -1008,16 +1044,21 @@ const command = 'cargo install provekit-cli';
 - [ ] **Step 7: Wire into `src/pages/index.astro`**
 
 Add to imports:
+
 ```astro
 import InstallScript from '~/components/install/InstallScript.astro';
 ```
+
 Replace the empty install section:
+
 ```astro
 <section aria-labelledby="install-title" class="pk-gutter">
   <InstallScript />
 </section>
 ```
+
 Also add the script tag at end of `<body>` in `BaseLayout.astro`:
+
 ```astro
 <script type="module" src="/src/scripts/copy.ts"></script>
 ```
@@ -1034,6 +1075,7 @@ git commit -m "feat(install): code panel with copy-to-clipboard"
 ### Task 10: Feature grid (3 cards with bloom illustrations)
 
 **Files:**
+
 - Create: `src/components/features/FeatureCard.astro`
 - Create: `src/components/features/FeatureGrid.astro`
 - Modify: `src/pages/index.astro`
@@ -1052,15 +1094,25 @@ interface Props {
 const { index, title, body, bloom, glyph } = Astro.props;
 
 const glyphMap = {
-  modular: '<rect x="14" y="14" width="20" height="20" rx="3" stroke="currentColor" stroke-width="1.5" fill="none"/><rect x="40" y="14" width="20" height="20" rx="3" stroke="currentColor" stroke-width="1.5" fill="none"/><rect x="14" y="40" width="20" height="20" rx="3" stroke="currentColor" stroke-width="1.5" fill="none"/><rect x="40" y="40" width="20" height="20" rx="3" stroke="currentColor" stroke-width="1.5" fill="none"/>',
-  mobile: '<rect x="22" y="10" width="30" height="54" rx="6" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="37" cy="56" r="2" fill="currentColor"/>',
-  feather: '<path d="M14 50 L50 14 c8 0 14 6 14 14 L28 64 H14 z" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M14 64 L36 42" stroke="currentColor" stroke-width="1.5" fill="none"/>',
+  modular:
+    '<rect x="14" y="14" width="20" height="20" rx="3" stroke="currentColor" stroke-width="1.5" fill="none"/><rect x="40" y="14" width="20" height="20" rx="3" stroke="currentColor" stroke-width="1.5" fill="none"/><rect x="14" y="40" width="20" height="20" rx="3" stroke="currentColor" stroke-width="1.5" fill="none"/><rect x="40" y="40" width="20" height="20" rx="3" stroke="currentColor" stroke-width="1.5" fill="none"/>',
+  mobile:
+    '<rect x="22" y="10" width="30" height="54" rx="6" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="37" cy="56" r="2" fill="currentColor"/>',
+  feather:
+    '<path d="M14 50 L50 14 c8 0 14 6 14 14 L28 64 H14 z" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M14 64 L36 42" stroke="currentColor" stroke-width="1.5" fill="none"/>',
 };
 ---
-<article class="pk-reveal relative flex h-full flex-col gap-6 rounded-md border border-[color:var(--color-line)] bg-white p-8">
+
+<article
+  class="pk-reveal relative flex h-full flex-col gap-6 rounded-md border border-[color:var(--color-line)] bg-white p-8"
+>
   <div class="relative h-44 w-full overflow-hidden rounded">
     <div class={`pk-bloom pk-bloom--${bloom}`} aria-hidden="true"></div>
-    <svg viewBox="0 0 74 74" class="relative h-full w-full text-[color:var(--color-ink)]" aria-hidden="true">
+    <svg
+      viewBox="0 0 74 74"
+      class="relative h-full w-full text-[color:var(--color-ink)]"
+      aria-hidden="true"
+    >
       <Fragment set:html={glyphMap[glyph]} />
     </svg>
   </div>
@@ -1079,6 +1131,7 @@ const glyphMap = {
 ---
 import FeatureCard from './FeatureCard.astro';
 ---
+
 <div class="py-24">
   <p class="pk-eyebrow pk-reveal">CORE FEATURES</p>
   <h2 id="features-title" class="sr-only">Core features</h2>
@@ -1111,8 +1164,7 @@ import FeatureCard from './FeatureCard.astro';
 - [ ] **Step 3: Wire into `src/pages/index.astro`**
 
 ```astro
-import FeatureGrid from '~/components/features/FeatureGrid.astro';
-// ...
+import FeatureGrid from '~/components/features/FeatureGrid.astro'; // ...
 <section aria-labelledby="features-title" class="pk-gutter">
   <FeatureGrid />
 </section>
@@ -1130,6 +1182,7 @@ git commit -m "feat(features): three feature cards with css blooms"
 ### Task 11: Engineering credit section
 
 **Files:**
+
 - Create: `src/components/credits/EngineeringCredit.astro`
 - Modify: `src/pages/index.astro`
 
@@ -1143,6 +1196,7 @@ const partners = [
   { letter: 'R', name: 'reilabs', href: '#' },
 ];
 ---
+
 <div class="grid gap-12 py-24 md:grid-cols-2 md:items-center">
   <div>
     <p class="pk-eyebrow pk-reveal">BUILT FOR PERFORMANCE AND PRIVACY</p>
@@ -1150,36 +1204,44 @@ const partners = [
       Engineered by some of the best technical brains.
     </h2>
     <ul class="pk-reveal mt-8 flex flex-wrap items-center gap-6" data-todo="partner-logos">
-      {partners.map((p) => (
-        <li>
-          <a href={p.href} class="flex items-center gap-2 text-[color:var(--color-mute)] hover:text-[color:var(--color-ink)]">
-            <span class="grid h-8 w-8 place-items-center rounded-full border border-[color:var(--color-line)] pk-mono text-xs">
-              {p.letter}
-            </span>
-            <span class="pk-mono text-sm">{p.name}</span>
-          </a>
-        </li>
-      ))}
+      {
+        partners.map((p) => (
+          <li>
+            <a
+              href={p.href}
+              class="flex items-center gap-2 text-[color:var(--color-mute)] hover:text-[color:var(--color-ink)]"
+            >
+              <span class="pk-mono grid h-8 w-8 place-items-center rounded-full border border-[color:var(--color-line)] text-xs">
+                {p.letter}
+              </span>
+              <span class="pk-mono text-sm">{p.name}</span>
+            </a>
+          </li>
+        ))
+      }
     </ul>
     <a href="#" class="pk-btn pk-btn--ghost pk-reveal mt-10" data-todo="github">Visit GitHub</a>
   </div>
 
-  <figure class="pk-reveal relative aspect-square w-full max-w-md justify-self-center md:justify-self-end" aria-hidden="true">
+  <figure
+    class="pk-reveal relative aspect-square w-full max-w-md justify-self-center md:justify-self-end"
+    aria-hidden="true"
+  >
     <svg viewBox="0 0 400 400" class="h-full w-full">
       <defs>
         <radialGradient id="hexGrad" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="var(--color-bloom-cyan)" stop-opacity="0.6" />
-          <stop offset="100%" stop-color="var(--color-bloom-cyan)" stop-opacity="0" />
+          <stop offset="0%" stop-color="var(--color-bloom-cyan)" stop-opacity="0.6"></stop>
+          <stop offset="100%" stop-color="var(--color-bloom-cyan)" stop-opacity="0"></stop>
         </radialGradient>
       </defs>
-      <circle cx="200" cy="200" r="180" fill="url(#hexGrad)" />
+      <circle cx="200" cy="200" r="180" fill="url(#hexGrad)"></circle>
       <g fill="none" stroke="var(--color-ink)" stroke-width="1.25" opacity="0.85">
-        <polygon points="200,60 320,130 320,270 200,340 80,270 80,130" />
-        <polygon points="200,100 285,150 285,250 200,300 115,250 115,150" />
-        <polygon points="200,140 250,170 250,230 200,260 150,230 150,170" />
-        <line x1="200" y1="60" x2="200" y2="340" />
-        <line x1="80" y1="130" x2="320" y2="270" />
-        <line x1="80" y1="270" x2="320" y2="130" />
+        <polygon points="200,60 320,130 320,270 200,340 80,270 80,130"></polygon>
+        <polygon points="200,100 285,150 285,250 200,300 115,250 115,150"></polygon>
+        <polygon points="200,140 250,170 250,230 200,260 150,230 150,170"></polygon>
+        <line x1="200" y1="60" x2="200" y2="340"></line>
+        <line x1="80" y1="130" x2="320" y2="270"></line>
+        <line x1="80" y1="270" x2="320" y2="130"></line>
       </g>
     </svg>
   </figure>
@@ -1189,8 +1251,7 @@ const partners = [
 - [ ] **Step 2: Wire into `src/pages/index.astro`**
 
 ```astro
-import EngineeringCredit from '~/components/credits/EngineeringCredit.astro';
-// ...
+import EngineeringCredit from '~/components/credits/EngineeringCredit.astro'; // ...
 <section aria-labelledby="credit-title" class="pk-gutter">
   <EngineeringCredit />
 </section>
@@ -1208,6 +1269,7 @@ git commit -m "feat(credits): engineering credit with partners and hex svg"
 ### Task 12: Benchmarks section + bar chart
 
 **Files:**
+
 - Create: `src/components/benchmarks/BenchmarkChart.astro`
 - Create: `src/components/benchmarks/Benchmarks.astro`
 - Modify: `src/pages/index.astro`
@@ -1227,36 +1289,50 @@ const colors = {
   provekit: 'var(--color-toolkit-3)',
 };
 ---
+
 <figure class="space-y-6" aria-label="Benchmark comparison">
-  <div class="flex flex-wrap items-center gap-4 pk-mono text-xs">
-    {(['toolkit1', 'toolkit2', 'provekit'] as const).map((k) => (
-      <span class="inline-flex items-center gap-2">
-        <span class="inline-block h-2 w-6 rounded-full" style={`background:${colors[k]}`}></span>
-        {k === 'provekit' ? 'PROVEKIT' : k.replace('toolkit', 'TOOLKIT ')}
-      </span>
-    ))}
+  <div class="pk-mono flex flex-wrap items-center gap-4 text-xs">
+    {
+      (['toolkit1', 'toolkit2', 'provekit'] as const).map((k) => (
+        <span class="inline-flex items-center gap-2">
+          <span class="inline-block h-2 w-6 rounded-full" style={`background:${colors[k]}`} />
+          {k === 'provekit' ? 'PROVEKIT' : k.replace('toolkit', 'TOOLKIT ')}
+        </span>
+      ))
+    }
   </div>
   <div class="space-y-5">
-    {data.map((row) => (
-      <div>
-        <div class="pk-mono text-xs text-[color:var(--color-mute)] mb-2">{row.metric.toUpperCase()}</div>
-        <div class="space-y-1.5">
-          {(['toolkit1', 'toolkit2', 'provekit'] as const).map((k) => (
-            <div class="h-3 rounded-full bg-[color:var(--color-line-soft)]">
-              <div class="h-full rounded-full" style={`width:${row[k]}%;background:${colors[k]}`}></div>
-            </div>
-          ))}
+    {
+      data.map((row) => (
+        <div>
+          <div class="pk-mono mb-2 text-xs text-[color:var(--color-mute)]">
+            {row.metric.toUpperCase()}
+          </div>
+          <div class="space-y-1.5">
+            {(['toolkit1', 'toolkit2', 'provekit'] as const).map((k) => (
+              <div class="h-3 rounded-full bg-[color:var(--color-line-soft)]">
+                <div
+                  class="h-full rounded-full"
+                  style={`width:${row[k]}%;background:${colors[k]}`}
+                />
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-    ))}
+      ))
+    }
   </div>
   <div class="flex flex-wrap gap-8 pt-2">
     <div>
-      <div class="pk-display text-[clamp(36px,4vw,56px)]" style="color:var(--color-toolkit-3)">+36%</div>
+      <div class="pk-display text-[clamp(36px,4vw,56px)]" style="color:var(--color-toolkit-3)">
+        +36%
+      </div>
       <div class="pk-mono text-xs text-[color:var(--color-mute)]">FASTER</div>
     </div>
     <div>
-      <div class="pk-display text-[clamp(36px,4vw,56px)]" style="color:var(--color-toolkit-3)">+24%</div>
+      <div class="pk-display text-[clamp(36px,4vw,56px)]" style="color:var(--color-toolkit-3)">
+        +24%
+      </div>
       <div class="pk-mono text-xs text-[color:var(--color-mute)]">LIGHTER</div>
     </div>
   </div>
@@ -1286,6 +1362,7 @@ const points = [
   },
 ];
 ---
+
 <div class="grid gap-12 py-24 md:grid-cols-2 md:items-start">
   <div>
     <p class="pk-eyebrow pk-reveal">BENCHMARKS</p>
@@ -1293,17 +1370,21 @@ const points = [
       A client-side ZK toolkit that excels in every aspect.
     </h2>
     <ol class="pk-reveal mt-10 space-y-8">
-      {points.map((p) => (
-        <li class="grid grid-cols-[auto_1fr] gap-4">
-          <span class="pk-mono text-sm text-[color:var(--color-mute)]">{p.n}</span>
-          <div>
-            <div class="pk-mono text-sm">{p.title}</div>
-            <p class="pk-body mt-2 text-base">{p.body}</p>
-          </div>
-        </li>
-      ))}
+      {
+        points.map((p) => (
+          <li class="grid grid-cols-[auto_1fr] gap-4">
+            <span class="pk-mono text-sm text-[color:var(--color-mute)]">{p.n}</span>
+            <div>
+              <div class="pk-mono text-sm">{p.title}</div>
+              <p class="pk-body mt-2 text-base">{p.body}</p>
+            </div>
+          </li>
+        ))
+      }
     </ol>
-    <a href="#" class="pk-btn pk-btn--ghost pk-reveal mt-10" data-todo="benchmarks">All Benchmarks</a>
+    <a href="#" class="pk-btn pk-btn--ghost pk-reveal mt-10" data-todo="benchmarks"
+      >All Benchmarks</a
+    >
   </div>
 
   <div class="pk-reveal rounded-md border border-[color:var(--color-line)] bg-white p-8">
@@ -1315,8 +1396,7 @@ const points = [
 - [ ] **Step 3: Wire into `src/pages/index.astro`**
 
 ```astro
-import Benchmarks from '~/components/benchmarks/Benchmarks.astro';
-// ...
+import Benchmarks from '~/components/benchmarks/Benchmarks.astro'; // ...
 <section aria-labelledby="benchmarks-title" class="pk-gutter">
   <Benchmarks />
 </section>
@@ -1334,6 +1414,7 @@ git commit -m "feat(benchmarks): metric callouts and svg-style bar chart"
 ### Task 13: FAQ section
 
 **Files:**
+
 - Create: `src/content/faq.ts`
 - Create: `src/components/faq/FaqItem.astro`
 - Create: `src/components/faq/Faq.astro`
@@ -1350,7 +1431,7 @@ export interface FaqEntry {
 export const faqEntries: FaqEntry[] = [
   {
     q: 'What exactly is Provekit?',
-    a: 'A lightweight, modular zero-knowledge proving toolkit written in Rust. It is designed for client-side execution, so proofs can be generated directly on a user\'s device — including mobile — without heavy server infrastructure.',
+    a: "A lightweight, modular zero-knowledge proving toolkit written in Rust. It is designed for client-side execution, so proofs can be generated directly on a user's device — including mobile — without heavy server infrastructure.",
   },
   {
     q: 'Does it work in the browser?',
@@ -1379,14 +1460,22 @@ export const faqEntries: FaqEntry[] = [
 
 ```astro
 ---
-interface Props { q: string; a: string; index: number; }
+interface Props {
+  q: string;
+  a: string;
+  index: number;
+}
 const { q, a, index } = Astro.props;
 const open = index === 0;
 ---
+
 <details class="group border-b border-[color:var(--color-line)] py-6" open={open}>
   <summary class="flex cursor-pointer list-none items-center justify-between gap-6">
     <span class="pk-h3">{q}</span>
-    <span class="pk-mono text-xl text-[color:var(--color-mute)] transition-transform group-open:rotate-45" aria-hidden="true">+</span>
+    <span
+      class="pk-mono text-xl text-[color:var(--color-mute)] transition-transform group-open:rotate-45"
+      aria-hidden="true">+</span
+    >
   </summary>
   <p class="pk-body mt-4 max-w-3xl">{a}</p>
 </details>
@@ -1399,6 +1488,7 @@ const open = index === 0;
 import FaqItem from './FaqItem.astro';
 import { faqEntries } from '~/content/faq';
 ---
+
 <div class="grid gap-12 py-24 md:grid-cols-[1fr_2fr] md:items-start">
   <div>
     <p class="pk-eyebrow pk-reveal">FREQUENTLY ASKED QUESTIONS</p>
@@ -1406,7 +1496,11 @@ import { faqEntries } from '~/content/faq';
       Comprehensive list of answers to all your questions.
     </h2>
     <p class="pk-body pk-reveal mt-6">Need more information or help?</p>
-    <a href="mailto:hello@provekit.org" class="pk-btn pk-btn--primary pk-reveal mt-6" data-todo="contact">Contact Us</a>
+    <a
+      href="mailto:hello@provekit.org"
+      class="pk-btn pk-btn--primary pk-reveal mt-6"
+      data-todo="contact">Contact Us</a
+    >
   </div>
   <div class="pk-reveal">
     {faqEntries.map((entry, i) => <FaqItem q={entry.q} a={entry.a} index={i} />)}
@@ -1417,8 +1511,7 @@ import { faqEntries } from '~/content/faq';
 - [ ] **Step 4: Wire into `src/pages/index.astro`**
 
 ```astro
-import Faq from '~/components/faq/Faq.astro';
-// ...
+import Faq from '~/components/faq/Faq.astro'; // ...
 <section aria-labelledby="faq-title" class="pk-gutter">
   <Faq />
 </section>
@@ -1436,6 +1529,7 @@ git commit -m "feat(faq): content-driven faq with native details"
 ### Task 14: Footer
 
 **Files:**
+
 - Create: `src/components/footer/SiteFooter.astro`
 - Modify: `src/pages/index.astro`
 
@@ -1455,6 +1549,7 @@ const community = [
 ];
 const year = new Date().getFullYear();
 ---
+
 <div class="border-t border-[color:var(--color-line)] py-16">
   <div class="grid gap-12 md:grid-cols-3 md:items-start">
     <div>
@@ -1466,17 +1561,37 @@ const year = new Date().getFullYear();
     <nav aria-label="Product" class="space-y-3">
       <h3 class="pk-mono text-xs text-[color:var(--color-mute)]">PRODUCT</h3>
       <ul class="space-y-2">
-        {product.map((l) => (
-          <li><a href={l.href} class="pk-mono text-sm hover:text-[color:var(--color-brand)]" data-todo={l.todo}>{l.label}</a></li>
-        ))}
+        {
+          product.map((l) => (
+            <li>
+              <a
+                href={l.href}
+                class="pk-mono text-sm hover:text-[color:var(--color-brand)]"
+                data-todo={l.todo}
+              >
+                {l.label}
+              </a>
+            </li>
+          ))
+        }
       </ul>
     </nav>
     <nav aria-label="Community" class="space-y-3">
       <h3 class="pk-mono text-xs text-[color:var(--color-mute)]">COMMUNITY</h3>
       <ul class="space-y-2">
-        {community.map((l) => (
-          <li><a href={l.href} class="pk-mono text-sm hover:text-[color:var(--color-brand)]" data-todo={l.todo}>{l.label}</a></li>
-        ))}
+        {
+          community.map((l) => (
+            <li>
+              <a
+                href={l.href}
+                class="pk-mono text-sm hover:text-[color:var(--color-brand)]"
+                data-todo={l.todo}
+              >
+                {l.label}
+              </a>
+            </li>
+          ))
+        }
       </ul>
     </nav>
   </div>
@@ -1489,8 +1604,7 @@ const year = new Date().getFullYear();
 - [ ] **Step 2: Wire into `src/pages/index.astro`**
 
 ```astro
-import SiteFooter from '~/components/footer/SiteFooter.astro';
-// ...
+import SiteFooter from '~/components/footer/SiteFooter.astro'; // ...
 <footer class="pk-gutter">
   <SiteFooter />
 </footer>
@@ -1510,6 +1624,7 @@ git commit -m "feat(footer): site footer with two link columns"
 ### Task 15: Reveal-on-scroll observer (vanilla TS)
 
 **Files:**
+
 - Create: `src/scripts/reveal.ts`
 - Test: `src/scripts/reveal.test.ts`
 
@@ -1524,7 +1639,9 @@ class FakeIO implements IntersectionObserver {
   readonly root = null;
   readonly rootMargin = '';
   readonly thresholds = [];
-  constructor(cb: IntersectionObserverCallback) { observerCb = cb; }
+  constructor(cb: IntersectionObserverCallback) {
+    observerCb = cb;
+  }
   observe = vi.fn();
   unobserve = vi.fn();
   disconnect = vi.fn();
@@ -1608,6 +1725,7 @@ git commit -m "feat(motion): vanilla intersection-observer reveal"
 ### Task 16: Responsive QA pass
 
 **Files:**
+
 - Create: `tests/visual.spec.ts`
 - Create: `playwright.config.ts`
 
@@ -1691,6 +1809,7 @@ git commit -m "test: e2e responsive smoke across mobile/tablet/desktop"
 ### Task 17: Sitemap, robots, OG image
 
 **Files:**
+
 - Create: `public/robots.txt`
 - Create: `public/og-image.svg` (rasterized to PNG by following step)
 - Create: `public/og-image.png`
@@ -1756,6 +1875,7 @@ git commit -m "feat(seo): robots, sitemap, og card"
 ### Task 18: Lighthouse CI configuration
 
 **Files:**
+
 - Create: `lighthouserc.json`
 - Create: `.github/workflows/ci.yml`
 
@@ -1824,6 +1944,7 @@ pnpm build && pnpm lhci
 ```
 
 If any score drops below the budget, fix the underlying issue before continuing. Most likely failures and fixes:
+
 - **Performance < 98:** unused CSS, font weights not subset — confirm only Outfit 400/500/600 + Geist Mono 400 are imported.
 - **Accessibility < 100:** color contrast, missing aria labels.
 - **Best Practices < 100:** mixed-content, console errors.
@@ -1841,6 +1962,7 @@ git commit -m "ci: lighthouse, lint, typecheck, vitest, playwright pipeline"
 ### Task 19: TODO_LINKS.md and placeholder audit
 
 **Files:**
+
 - Create: `TODO_LINKS.md`
 
 - [ ] **Step 1: Audit placeholder anchors**
@@ -1857,18 +1979,18 @@ grep -rn 'data-todo=' src/ | sort
 
 Replace every placeholder anchor before launch. Each row points to the exact source location where the URL is hard-coded as `#` and tagged with a `data-todo` attribute.
 
-| Token             | File                                                  | Purpose                                |
-| ----------------- | ----------------------------------------------------- | -------------------------------------- |
-| `docs`            | `src/components/nav/TopBar.astro`                     | Top-bar Docs pill                      |
-| `repo`            | `src/components/hero/Hero.astro`                      | Hero "Visit Repo" primary CTA          |
-| `docs`            | `src/components/hero/Hero.astro`                      | Hero "Explore Docs" ghost CTA          |
-| `guide`           | `src/components/install/InstallScript.astro`          | Install section "Read Guide" CTA       |
-| `partner-logos`   | `src/components/credits/EngineeringCredit.astro`      | World / Atheon / Reilabs href list     |
-| `github`          | `src/components/credits/EngineeringCredit.astro`      | "Visit GitHub" CTA                     |
-| `benchmarks`      | `src/components/benchmarks/Benchmarks.astro`          | "All Benchmarks" CTA                   |
-| `contact`         | `src/components/faq/Faq.astro`                        | "Contact Us" mailto                    |
-| `docs` `guide` `benchmarks` | `src/components/footer/SiteFooter.astro`    | Footer Product column                  |
-| `telegram` `twitter` `github` | `src/components/footer/SiteFooter.astro`  | Footer Community column                |
+| Token                         | File                                             | Purpose                            |
+| ----------------------------- | ------------------------------------------------ | ---------------------------------- |
+| `docs`                        | `src/components/nav/TopBar.astro`                | Top-bar Docs pill                  |
+| `repo`                        | `src/components/hero/Hero.astro`                 | Hero "Visit Repo" primary CTA      |
+| `docs`                        | `src/components/hero/Hero.astro`                 | Hero "Explore Docs" ghost CTA      |
+| `guide`                       | `src/components/install/InstallScript.astro`     | Install section "Read Guide" CTA   |
+| `partner-logos`               | `src/components/credits/EngineeringCredit.astro` | World / Atheon / Reilabs href list |
+| `github`                      | `src/components/credits/EngineeringCredit.astro` | "Visit GitHub" CTA                 |
+| `benchmarks`                  | `src/components/benchmarks/Benchmarks.astro`     | "All Benchmarks" CTA               |
+| `contact`                     | `src/components/faq/Faq.astro`                   | "Contact Us" mailto                |
+| `docs` `guide` `benchmarks`   | `src/components/footer/SiteFooter.astro`         | Footer Product column              |
+| `telegram` `twitter` `github` | `src/components/footer/SiteFooter.astro`         | Footer Community column            |
 
 After replacing, run:
 
@@ -1889,6 +2011,7 @@ git commit -m "docs: enumerate placeholder urls in todo_links"
 ### Task 20: README and CONTRIBUTING
 
 **Files:**
+
 - Create: `README.md`
 - Create: `CONTRIBUTING.md`
 
@@ -1962,6 +2085,7 @@ git commit -m "docs: readme and contributing guide"
 ### Task 21: Final verification + Cloudflare Pages handoff
 
 **Files:**
+
 - (No new files — verification and documentation only.)
 
 - [ ] **Step 1: Run the full local pipeline**
@@ -1989,6 +2113,7 @@ open "reference/Provekit Landing.html"
 ```
 
 Compare:
+
 - Hero layout, eyebrow color, button stack
 - Feature card blooms — hue, blur, glyph crispness
 - Engineering credit hex art and partner row

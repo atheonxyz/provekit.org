@@ -14,6 +14,7 @@ Replace the current 10MB Figma Make export of `provekit.org` with a real, mainta
 ## 2. Why a rebuild
 
 The existing `Provekit Landing.html` is not source code:
+
 - Body is `<div id="app"></div>`; the page is assembled at runtime by a Figma Make / Anima JS bundle.
 - 10 MB total = base64 fonts (3.7 MB + 3.3 MB Cyrillic/Vietnamese subsets we don't need) + the bundler.
 - Hand-written assets are limited to `colors_and_type.css` (the design tokens) and the visual design itself.
@@ -89,10 +90,10 @@ Each component has one purpose, no shared state, props-only inputs. Component fi
 Single-page sections, in order:
 
 1. **TopBar** — `PROVEKIT` wordmark left, `DOCS` pill right.
-2. **Hero** — eyebrow `INTRODUCING PROVEKIT`, two-line display headline (*Client-side zero-knowledge, built for the real world.*), one-paragraph sub, CTAs `VISIT REPO` / `EXPLORE DOCS`, soft bloom field bottom-right.
+2. **Hero** — eyebrow `INTRODUCING PROVEKIT`, two-line display headline (_Client-side zero-knowledge, built for the real world._), one-paragraph sub, CTAs `VISIT REPO` / `EXPLORE DOCS`, soft bloom field bottom-right.
 3. **InstallScript** — `INSTALL SCRIPT` eyebrow, headline + sub, `READ GUIDE` CTA, code block `cargo install provekit-cli` with copy button.
 4. **Core features** — `CORE FEATURES` eyebrow, three numbered cards: Modularity, Mobile Friendly, Light Weight. Each card carries a CSS-only bloom in a different palette (cyan / orange / pink) plus a small SVG glyph.
-5. **Engineering credit** — `BUILT FOR PERFORMANCE AND PRIVACY` eyebrow, headline *Engineered by some of the best technical brains.*, three logos (`world` · `atheon` · `reilabs`), `VISIT GITHUB` CTA, hex/polygon SVG artwork on the right.
+5. **Engineering credit** — `BUILT FOR PERFORMANCE AND PRIVACY` eyebrow, headline _Engineered by some of the best technical brains._, three logos (`world` · `atheon` · `reilabs`), `VISIT GITHUB` CTA, hex/polygon SVG artwork on the right.
 6. **Benchmarks** — `BENCHMARKS` eyebrow, headline, three numbered metric paragraphs (proving time / memory / verification cost), SVG bar chart with `+36% Faster` / `+24% Lighter` callouts, `ALL BENCHMARKS` CTA.
 7. **FAQ** — six questions answered with real ZK-toolkit copy (see content section), implemented as native `<details>` / `<summary>`.
 8. **Footer** — two link columns (product: DOCS · GUIDE · BENCHMARKS / community: TELEGRAM · TWITTER · GITHUB), copyright strip, contact mailto.
@@ -100,10 +101,12 @@ Single-page sections, in order:
 ## 6. Content
 
 **Hero copy** (verbatim from Figma, kept):
+
 > Client-side zero-knowledge, built for the real world.
 > Provekit is a lightweight, modular ZK toolkit designed from the ground up for client-side execution.
 
 **Feature copy** (lightly tightened from Figma):
+
 - **Modularity** — Cleanly separates proving, verification, and compilation into independent components — easy to customize and extend.
 - **Mobile Friendly** — Designed for client-side proving. Generates zero-knowledge proofs directly on a user's device, without heavy server infrastructure.
 - **Light Weight** — Built in Rust with optimized field arithmetic. Provekit keeps resource usage minimal so it runs efficiently even on constrained hardware.
@@ -112,12 +115,12 @@ Single-page sections, in order:
 
 **FAQ** (rewritten — the Figma copy was lorem-ipsum that mis-described ProveKit as a JS assertion library):
 
-1. *What exactly is Provekit?* — A lightweight, modular zero-knowledge proving toolkit written in Rust. It is designed for client-side execution, so proofs can be generated directly on a user's device — including mobile — without heavy server infrastructure.
-2. *Does it work in the browser?* — Yes. Provekit compiles to WebAssembly and runs in modern browsers, with a footprint small enough to ship in production web apps.
-3. *What ZK proof system does it use?* — Provekit uses a SNARK backend optimized for client-side proving and on-chain verification. See the docs for current scheme details and roadmap.
-4. *How does it compare to other ZK toolkits?* — On commodity hardware, Provekit generates proofs ~36% faster than comparable client-side toolkits and uses ~24% less memory. See the benchmarks page for full methodology.
-5. *Is it production-ready?* — Provekit is actively developed by World, Atheon, and Reilabs and is being used in production-track integrations. Treat the latest release notes and benchmarks as the source of truth.
-6. *Where can I get help?* — Open an issue on GitHub or join the Telegram listed in the footer.
+1. _What exactly is Provekit?_ — A lightweight, modular zero-knowledge proving toolkit written in Rust. It is designed for client-side execution, so proofs can be generated directly on a user's device — including mobile — without heavy server infrastructure.
+2. _Does it work in the browser?_ — Yes. Provekit compiles to WebAssembly and runs in modern browsers, with a footprint small enough to ship in production web apps.
+3. _What ZK proof system does it use?_ — Provekit uses a SNARK backend optimized for client-side proving and on-chain verification. See the docs for current scheme details and roadmap.
+4. _How does it compare to other ZK toolkits?_ — On commodity hardware, Provekit generates proofs ~36% faster than comparable client-side toolkits and uses ~24% less memory. See the benchmarks page for full methodology.
+5. _Is it production-ready?_ — Provekit is actively developed by World, Atheon, and Reilabs and is being used in production-track integrations. Treat the latest release notes and benchmarks as the source of truth.
+6. _Where can I get help?_ — Open an issue on GitHub or join the Telegram listed in the footer.
 
 All FAQ content lives in `src/content/faq.ts` as data, not JSX, so it's easy to edit without touching templates.
 
@@ -132,6 +135,7 @@ All FAQ content lives in `src/content/faq.ts` as data, not JSX, so it's easy to 
 **Benchmark chart** — hand-authored SVG. Real `<text>` for numbers (selectable, indexable). Bar fills use `--pk-toolkit-1/2/3`. Optional one-shot fade-and-grow on viewport intersection.
 
 **Motion** — restrained:
+
 - Hero bloom: 15-second `transform` drift loop, paused under `prefers-reduced-motion: reduce`.
 - Section eyebrows + headlines: 8px fade-up on viewport entry. One shared `IntersectionObserver`, registered once per page.
 - FAQ open/close: native `<details>` animation.
@@ -160,13 +164,13 @@ Breakpoints: mobile `<640`, tablet `640–1024`, desktop `≥1024`.
 
 ## 10. Performance budget
 
-| Asset | Budget |
-| --- | --- |
-| HTML (uncompressed) | < 30 KB |
-| CSS (Tailwind purged) | < 25 KB |
-| JS shipped | < 5 KB |
+| Asset                     | Budget           |
+| ------------------------- | ---------------- |
+| HTML (uncompressed)       | < 30 KB          |
+| CSS (Tailwind purged)     | < 25 KB          |
+| JS shipped                | < 5 KB           |
 | Fonts (woff2, latin only) | < 90 KB combined |
-| Critical-path images | 0 raster |
+| Critical-path images      | 0 raster         |
 
 Targets: LCP < 1.0s on fast-3G; Lighthouse Performance ≥ 98, Accessibility = 100, Best Practices = 100, SEO = 100. CI fails if any drops.
 
@@ -202,6 +206,7 @@ Every external link (`VISIT REPO`, `EXPLORE DOCS`, `READ GUIDE`, `VISIT GITHUB`,
 ## 15. Acceptance criteria
 
 The rebuild is done when:
+
 1. `pnpm build` produces a static `dist/` deployable to Cloudflare Pages.
 2. Lighthouse on the production build hits ≥ 98 / 100 / 100 / 100.
 3. JS shipped is < 5 KB; no critical-path raster images.
