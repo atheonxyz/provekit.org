@@ -1,0 +1,12 @@
+node_modules
+dist
+.astro
+.DS_Store
+.env
+.env.local
+.env.*.local
+.lighthouseci
+playwright-report
+test-results
+.vitest-cache
+*.log
