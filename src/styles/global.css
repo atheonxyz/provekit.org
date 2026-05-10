@@ -1,0 +1,187 @@
+@import './tokens.css';
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    background: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: var(--color-brand);
+    color: #fff;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .pk-gutter {
+    padding-inline: clamp(var(--gutter-min), 6vw, var(--gutter-max));
+  }
+
+  .pk-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-mute);
+  }
+
+  .pk-display {
+    font-size: clamp(40px, 6vw, var(--text-display));
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    font-weight: 500;
+    color: var(--color-ink);
+  }
+
+  .pk-h2 {
+    font-size: clamp(28px, 4vw, var(--text-h2));
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-weight: 500;
+  }
+
+  .pk-h3 {
+    font-size: var(--text-h3);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    font-weight: 500;
+  }
+
+  .pk-body {
+    font-size: clamp(16px, 1.4vw, 20px);
+    line-height: 1.5;
+    color: var(--color-mute);
+  }
+
+  .pk-mono {
+    font-family: var(--font-mono);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .pk-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 52px;
+    padding: 0 20px;
+    border: 0;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition:
+      background 120ms var(--ease-pk),
+      opacity 120ms var(--ease-pk);
+  }
+  .pk-btn--primary {
+    background: var(--color-brand);
+    color: #fff;
+  }
+  .pk-btn--primary:hover {
+    background: var(--color-brand-hover);
+  }
+  .pk-btn--secondary {
+    background: #f1f1f1;
+    color: var(--color-ink);
+  }
+  .pk-btn--secondary:hover {
+    background: #e8e8e8;
+  }
+  .pk-btn--ghost {
+    background: transparent;
+    color: var(--color-ink);
+    border: 1px solid var(--color-line);
+  }
+  .pk-btn--ghost:hover {
+    background: var(--color-line-soft);
+  }
+
+  .pk-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 36px;
+    padding: 0 14px;
+    border-radius: 9999px;
+    background: #fff;
+    border: 1px solid var(--color-line);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-ink);
+  }
+
+  .pk-bloom {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    filter: blur(36px) saturate(1.05);
+    opacity: 0.85;
+  }
+  .pk-bloom--cyan {
+    background:
+      radial-gradient(closest-side at 30% 35%, var(--color-bloom-cyan), transparent 70%),
+      radial-gradient(closest-side at 70% 65%, var(--color-bloom-cyan-hot), transparent 65%);
+  }
+  .pk-bloom--orange {
+    background:
+      radial-gradient(closest-side at 35% 40%, var(--color-bloom-orange), transparent 70%),
+      radial-gradient(closest-side at 70% 60%, var(--color-bloom-orange-hot), transparent 65%);
+  }
+  .pk-bloom--pink {
+    background:
+      radial-gradient(closest-side at 30% 40%, var(--color-bloom-pink), transparent 70%),
+      radial-gradient(closest-side at 70% 60%, var(--color-bloom-magenta), transparent 70%);
+  }
+
+  .pk-reveal {
+    opacity: 0;
+    transform: translateY(8px);
+    transition:
+      opacity 600ms var(--ease-pk),
+      transform 600ms var(--ease-pk);
+  }
+  .pk-reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+}

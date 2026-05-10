@@ -1,0 +1,64 @@
+/* Provekit design tokens — migrated from reference/colors_and_type.css.
+ * Body-copy mute color darkened from #949494 to #6E6E6E to clear WCAG AA on canvas.
+ */
+@import 'tailwindcss';
+
+@theme {
+  /* Ink + surfaces */
+  --color-ink: #2d2d2b;
+  --color-ink-alt: #2d2d30;
+  --color-mute: #6e6e6e; /* contrast-safe body mute */
+  --color-mute-soft: #949494; /* decorative-only */
+  --color-mute-2: #808080;
+  --color-mute-3: #b7b7b7;
+
+  --color-canvas: #f8feff;
+  --color-surface: #ffffff;
+  --color-surface-tint: rgb(190 225 255 / 0.04);
+
+  --color-line: #d1f5ff;
+  --color-line-soft: #eef7ff;
+  --color-line-mid: #bceeff;
+
+  /* Brand + accents */
+  --color-brand: #0d74ff;
+  --color-brand-hover: #0a66e0;
+  --color-brand-ink: #a2d0fc;
+
+  /* Pastel blooms */
+  --color-bloom-cyan: #a2d0fc;
+  --color-bloom-cyan-hot: rgb(0 190 255 / 0.9);
+  --color-bloom-orange: #fdcc91;
+  --color-bloom-orange-2: #ffe5c6;
+  --color-bloom-pink: #ff9aa0;
+  --color-bloom-pink-2: #ffdee7;
+  --color-bloom-coral: #f9c7c0;
+  --color-bloom-magenta: #de00ff;
+  --color-bloom-purple: #7b00ff;
+  --color-bloom-cyan-2: #00fff2;
+  --color-bloom-red-hot: #ff7f7f;
+  --color-bloom-orange-hot: #ffc57f;
+
+  /* Toolkit / chart colours */
+  --color-toolkit-1: #de00ff;
+  --color-toolkit-2: #e91900;
+  --color-toolkit-3: #0d74ff;
+
+  /* Type */
+  --font-sans: 'Outfit', system-ui, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, 'SF Mono', monospace;
+
+  --text-display: 72px;
+  --text-h1: 48px;
+  --text-h2: 36px;
+  --text-h3: 28px;
+  --text-body: 24px;
+  --text-mono: 24px;
+
+  /* Motion */
+  --ease-pk: cubic-bezier(0.2, 0.8, 0.2, 1);
+
+  /* Layout */
+  --gutter-min: 20px;
+  --gutter-max: 160px;
+}
