@@ -35,7 +35,6 @@ There is no incremental "clean it up" path. The right move is to rebuild on a re
 ```
 provekit-org/
 ├── astro.config.mjs
-├── tailwind.config.mjs
 ├── tsconfig.json
 ├── package.json
 ├── pnpm-lock.yaml
@@ -82,6 +81,8 @@ provekit-org/
 ├── CONTRIBUTING.md
 └── README.md
 ```
+
+> Note: Tailwind v4 with `@tailwindcss/vite` configures via the `@theme` directive in `src/styles/tokens.css`. No `tailwind.config.mjs` is required; the file is intentionally omitted.
 
 Each component has one purpose, no shared state, props-only inputs. Component file size cap: ~150 lines. If a component grows past that, split it.
 

@@ -5,6 +5,7 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://provekit.org',
   trailingSlash: 'never',
+  prefetch: true,
   build: {
     inlineStylesheets: 'auto',
   },

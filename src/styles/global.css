@@ -119,11 +119,11 @@
     background: var(--color-brand-hover);
   }
   .pk-btn--secondary {
-    background: #f1f1f1;
+    background: var(--color-surface-2);
     color: var(--color-ink);
   }
   .pk-btn--secondary:hover {
-    background: #e8e8e8;
+    background: var(--color-surface-2-hover);
   }
   .pk-btn--ghost {
     background: transparent;
@@ -133,6 +133,15 @@
   .pk-btn--ghost:hover {
     background: var(--color-line-soft);
   }
+  .pk-btn:focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 3px;
+  }
+  .pk-btn:disabled,
+  .pk-btn[aria-disabled='true'] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 
   .pk-pill {
     display: inline-flex;
@@ -141,7 +150,7 @@
     height: 36px;
     padding: 0 14px;
     border-radius: 9999px;
-    background: #fff;
+    background: var(--color-surface);
     border: 1px solid var(--color-line);
     font-family: var(--font-mono);
     font-size: 12px;

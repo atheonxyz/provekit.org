@@ -14,6 +14,8 @@
 
   --color-canvas: #f8feff;
   --color-surface: #ffffff;
+  --color-surface-2: #f1f1f1;
+  --color-surface-2-hover: #e8e8e8;
   --color-surface-tint: rgb(190 225 255 / 0.04);
 
   --color-line: #d1f5ff;
