@@ -6,6 +6,7 @@ import InstallScript from '~/components/install/InstallScript.astro';
 import FeatureGrid from '~/components/features/FeatureGrid.astro';
 import EngineeringCredit from '~/components/credits/EngineeringCredit.astro';
 import Benchmarks from '~/components/benchmarks/Benchmarks.astro';
+import Faq from '~/components/faq/Faq.astro';
 ---
 
 <BaseLayout
@@ -31,7 +32,9 @@ import Benchmarks from '~/components/benchmarks/Benchmarks.astro';
     <section aria-labelledby="benchmarks-title" class="pk-gutter">
       <Benchmarks />
     </section>
-    <section aria-labelledby="faq-title" class="pk-gutter"></section>
+    <section aria-labelledby="faq-title" class="pk-gutter">
+      <Faq />
+    </section>
   </main>
   <footer class="pk-gutter"></footer>
 </BaseLayout>
