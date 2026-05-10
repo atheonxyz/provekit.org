@@ -7,6 +7,7 @@ import FeatureGrid from '~/components/features/FeatureGrid.astro';
 import EngineeringCredit from '~/components/credits/EngineeringCredit.astro';
 import Benchmarks from '~/components/benchmarks/Benchmarks.astro';
 import Faq from '~/components/faq/Faq.astro';
+import SiteFooter from '~/components/footer/SiteFooter.astro';
 ---
 
 <BaseLayout
@@ -36,5 +37,7 @@ import Faq from '~/components/faq/Faq.astro';
       <Faq />
     </section>
   </main>
-  <footer class="pk-gutter"></footer>
+  <footer class="pk-gutter">
+    <SiteFooter />
+  </footer>
 </BaseLayout>
