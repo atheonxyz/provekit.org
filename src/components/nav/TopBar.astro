@@ -6,5 +6,28 @@
   <a href="/" class="pk-mono text-sm font-medium tracking-[0.12em]" aria-label="Provekit home">
     PROVEKIT
   </a>
-  <a href="#" class="pk-pill" data-todo="docs"> DOCS </a>
+  <div class="flex items-center gap-2">
+    <a
+      href="#"
+      class="pk-mono inline-flex h-9 items-center gap-2 rounded-full bg-[color:var(--color-brand)] px-4 text-xs text-white hover:bg-[color:var(--color-brand-hover)]"
+      data-todo="docs"
+    >
+      DOCS
+      <span aria-hidden="true">→</span>
+    </a>
+    <button
+      type="button"
+      class="grid h-9 w-9 place-items-center rounded-full border border-[color:var(--color-line)] text-[color:var(--color-ink)]"
+      aria-label="Open menu"
+    >
+      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+        <path
+          d="M4 7h16M4 12h16M4 17h16"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          fill="none"></path>
+      </svg>
+    </button>
+  </div>
 </nav>

@@ -15,6 +15,15 @@ import { faqEntries } from '~/content/faq';
       class="pk-btn pk-btn--primary pk-reveal mt-6"
       data-todo="contact">Contact Us</a
     >
+
+    <!-- Decorative angular icon with soft pink/peach bloom (extracted from Figma) -->
+    <figure class="pk-reveal relative mt-16 w-fit" aria-hidden="true">
+      <span
+        class="absolute -inset-12 -z-10 block opacity-90"
+        style="background: radial-gradient(closest-side at 50% 50%, var(--color-bloom-pink) 0%, transparent 70%); filter: blur(40px);"
+      ></span>
+      <img src="/figma/faq-icon.png" alt="" width="220" height="220" loading="lazy" />
+    </figure>
   </div>
   <div class="pk-reveal">
     {faqEntries.map((entry, i) => <FaqItem q={entry.q} a={entry.a} index={i} />)}

@@ -52,6 +52,13 @@
     padding-inline: clamp(var(--gutter-min), 6vw, var(--gutter-max));
   }
 
+  /* Cyan-tinted divider strip between sections */
+  .pk-strip {
+    height: 80px;
+    background: var(--color-line-soft);
+    border-block: 1px solid var(--color-line);
+  }
+
   .pk-eyebrow {
     font-family: var(--font-mono);
     font-size: 14px;

@@ -3,6 +3,15 @@
 ---
 
 <div class="relative overflow-hidden pt-24 pb-32 md:pt-32 md:pb-40">
+  <!-- Decorative dashed-line + circle pattern (extracted from Figma source) -->
+  <img
+    src="/figma/hero-pattern.svg"
+    alt=""
+    aria-hidden="true"
+    class="pointer-events-none absolute inset-0 h-full w-full select-none"
+  />
+
+  <!-- Soft cyan bloom in the lower right -->
   <div
     class="pk-bloom pk-bloom--cyan absolute -right-20 bottom-0 h-[60%] w-[55%]"
     aria-hidden="true"
@@ -15,9 +24,8 @@
       Client-side zero-knowledge, <br />built for the real world.
     </h1>
     <p class="pk-body pk-reveal mt-8 max-w-2xl">
-      A modular ZK proving toolkit in Rust. Generate proofs directly in the browser or on mobile
-      &mdash; <span class="text-[color:var(--color-ink)]">~36% faster</span> and
-      <span class="text-[color:var(--color-ink)]">~24% lighter</span> than comparable client-side toolkits.
+      Provekit is a lightweight, modular ZK toolkit designed from the ground up for client-side
+      execution.
     </p>
     <div class="pk-reveal mt-10 flex flex-wrap gap-3">
       <a href="#" class="pk-btn pk-btn--primary" data-todo="repo">

@@ -15,23 +15,33 @@ const command = 'cargo install provekit-cli';
     <a href="#" class="pk-btn pk-btn--primary pk-reveal mt-8" data-todo="guide">Read Guide</a>
   </div>
 
-  <figure
-    class="pk-reveal relative overflow-hidden rounded-md border border-[color:var(--color-line)] bg-white"
-  >
-    <figcaption
-      class="flex items-center justify-between border-b border-[color:var(--color-line)] px-4 py-3"
+  <div class="relative isolate">
+    <!-- Soft peach/pink bloom behind the panel (extracted from Figma source) -->
+    <span
+      class="absolute inset-0 -z-10 block opacity-90"
+      style="background:
+        radial-gradient(closest-side at 70% 30%, var(--color-bloom-pink) 0%, transparent 70%),
+        radial-gradient(closest-side at 30% 70%, var(--color-bloom-orange) 0%, transparent 70%);
+        filter: blur(40px);"
+      aria-hidden="true"></span>
+    <figure
+      class="pk-reveal relative overflow-hidden rounded-md border border-[color:var(--color-line)] bg-white"
     >
-      <span class="pk-mono text-xs text-[color:var(--color-mute)]">BASH</span>
-      <button
-        type="button"
-        class="pk-mono text-xs text-[color:var(--color-mute)] hover:text-[color:var(--color-ink)]"
-        data-copy={command}
-        aria-label="Copy install command"
+      <figcaption
+        class="flex items-center justify-between border-b border-[color:var(--color-line)] px-4 py-3"
       >
-        <span data-copy-label>Copy</span>
-      </button>
-    </figcaption>
-    <pre
-      class="overflow-x-auto px-5 py-6 font-mono text-base text-[color:var(--color-ink)]"><code>{command}</code></pre>
-  </figure>
+        <span class="pk-mono text-xs text-[color:var(--color-mute)]">BASH</span>
+        <button
+          type="button"
+          class="pk-mono text-xs text-[color:var(--color-mute)] hover:text-[color:var(--color-ink)]"
+          data-copy={command}
+          aria-label="Copy install command"
+        >
+          <span data-copy-label>Copy</span>
+        </button>
+      </figcaption>
+      <pre
+        class="overflow-x-auto px-5 py-6 font-mono text-base text-[color:var(--color-ink)]"><code>{command}</code></pre>
+    </figure>
+  </div>
 </div>

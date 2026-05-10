@@ -3,7 +3,6 @@ import BaseLayout from '~/layouts/BaseLayout.astro';
 import TopBar from '~/components/nav/TopBar.astro';
 import Hero from '~/components/hero/Hero.astro';
 import InstallScript from '~/components/install/InstallScript.astro';
-import Quickstart from '~/components/quickstart/Quickstart.astro';
 import FeatureGrid from '~/components/features/FeatureGrid.astro';
 import EngineeringCredit from '~/components/credits/EngineeringCredit.astro';
 import Benchmarks from '~/components/benchmarks/Benchmarks.astro';
@@ -13,7 +12,7 @@ import SiteFooter from '~/components/footer/SiteFooter.astro';
 
 <BaseLayout
   title="Provekit — Client-side zero-knowledge, built for the real world"
-  description="A modular ZK proving toolkit in Rust. Generate zero-knowledge proofs in the browser or on mobile — ~36% faster and ~24% lighter than comparable client-side toolkits."
+  description="Provekit is a lightweight, modular ZK toolkit designed from the ground up for client-side execution."
 >
   <header class="pk-gutter pt-6">
     <TopBar />
@@ -22,21 +21,23 @@ import SiteFooter from '~/components/footer/SiteFooter.astro';
     <section aria-labelledby="hero-title" class="pk-gutter">
       <Hero />
     </section>
+    <div class="pk-strip" aria-hidden="true"></div>
     <section aria-labelledby="install-title" class="pk-gutter">
       <InstallScript />
     </section>
-    <section aria-labelledby="quickstart-title" class="pk-gutter">
-      <Quickstart />
-    </section>
+    <div class="pk-strip" aria-hidden="true"></div>
     <section aria-labelledby="features-title" class="pk-gutter">
       <FeatureGrid />
     </section>
+    <div class="pk-strip" aria-hidden="true"></div>
     <section aria-labelledby="credit-title" class="pk-gutter">
       <EngineeringCredit />
     </section>
+    <div class="pk-strip" aria-hidden="true"></div>
     <section aria-labelledby="benchmarks-title" class="pk-gutter">
       <Benchmarks />
     </section>
+    <div class="pk-strip" aria-hidden="true"></div>
     <section aria-labelledby="faq-title" class="pk-gutter">
       <Faq />
     </section>

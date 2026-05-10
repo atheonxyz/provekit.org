@@ -3,34 +3,30 @@ interface Props {
   index: string;
   title: string;
   body: string;
-  bloom: 'cyan' | 'orange' | 'pink';
-  glyph: 'modular' | 'mobile' | 'feather';
+  art: 'modularity' | 'mobile' | 'lightweight';
 }
-const { index, title, body, bloom, glyph } = Astro.props;
+const { index, title, body, art } = Astro.props;
 
-const glyphMap = {
-  modular:
-    '<rect x="14" y="14" width="20" height="20" rx="3" stroke="currentColor" stroke-width="1.5" fill="none"/><rect x="40" y="14" width="20" height="20" rx="3" stroke="currentColor" stroke-width="1.5" fill="none"/><rect x="14" y="40" width="20" height="20" rx="3" stroke="currentColor" stroke-width="1.5" fill="none"/><rect x="40" y="40" width="20" height="20" rx="3" stroke="currentColor" stroke-width="1.5" fill="none"/>',
-  mobile:
-    '<rect x="22" y="10" width="30" height="54" rx="6" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="37" cy="56" r="2" fill="currentColor"/>',
-  feather:
-    '<path d="M14 50 L50 14 c8 0 14 6 14 14 L28 64 H14 z" stroke="currentColor" stroke-width="1.5" fill="none"/><path d="M14 64 L36 42" stroke="currentColor" stroke-width="1.5" fill="none"/>',
+const artMap = {
+  modularity: '/figma/feature-modularity.png',
+  mobile: '/figma/feature-mobile.png',
+  lightweight: '/figma/feature-lightweight.png',
 };
 ---
 
 <article
   class="pk-reveal relative flex h-full flex-col gap-6 rounded-md border border-[color:var(--color-line)] bg-white p-8"
 >
-  <div class="relative h-44 w-full overflow-hidden rounded">
-    <div class={`pk-bloom pk-bloom--${bloom}`} aria-hidden="true"></div>
-    <svg
-      viewBox="0 0 74 74"
-      class="relative h-full w-full text-[color:var(--color-ink)]"
-      aria-hidden="true"
-    >
-      <Fragment set:html={glyphMap[glyph]} />
-    </svg>
-  </div>
+  <img
+    src={artMap[art]}
+    alt=""
+    aria-hidden="true"
+    width="930"
+    height="792"
+    class="aspect-[930/792] w-full rounded object-cover select-none"
+    loading="lazy"
+    decoding="async"
+  />
 
   <div class="flex items-baseline gap-3">
     <span class="pk-mono text-xs text-[color:var(--color-mute)]">{index}</span>
