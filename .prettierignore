@@ -4,3 +4,4 @@ node_modules
 pnpm-lock.yaml
 reference
 .omc
+src/env.d.ts

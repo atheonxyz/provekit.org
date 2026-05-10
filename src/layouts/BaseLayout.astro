@@ -19,6 +19,7 @@ const {
   ogImage = '/og-image.png',
 } = Astro.props;
 ---
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -44,19 +45,25 @@ const {
     <meta name="twitter:image" content={new URL(ogImage, canonical).toString()} />
 
     <!-- Structured data -->
-    <script type="application/ld+json" set:html={JSON.stringify({
-      '@context': 'https://schema.org',
-      '@type': 'SoftwareApplication',
-      name: 'ProveKit',
-      applicationCategory: 'DeveloperApplication',
-      operatingSystem: 'Cross-platform',
-      description,
-      url: canonical,
-      license: 'https://opensource.org/licenses/MIT',
-    })} />
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'SoftwareApplication',
+        name: 'ProveKit',
+        applicationCategory: 'DeveloperApplication',
+        operatingSystem: 'Cross-platform',
+        description,
+        url: canonical,
+        license: 'https://opensource.org/licenses/MIT',
+      })}
+    />
   </head>
   <body>
-    <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-white focus:px-3 focus:py-2 focus:shadow">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded focus:bg-white focus:px-3 focus:py-2 focus:shadow"
+    >
       Skip to content
     </a>
     <slot />

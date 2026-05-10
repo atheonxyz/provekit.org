@@ -5,7 +5,7 @@ export default [
   ...tseslint.configs.recommended,
   ...eslintPluginAstro.configs.recommended,
   {
-    ignores: ['dist/**', '.astro/**', 'node_modules/**', 'reference/**'],
+    ignores: ['dist/**', '.astro/**', 'node_modules/**', 'reference/**', 'src/env.d.ts'],
   },
   {
     rules: {

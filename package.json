@@ -18,7 +18,7 @@
     "lhci": "lhci autorun"
   },
   "dependencies": {
-    "@astrojs/sitemap": "^3.2.1",
+    "@astrojs/sitemap": "3.2.1",
     "@fontsource/geist-mono": "^5.1.0",
     "@fontsource/outfit": "^5.1.0",
     "@tailwindcss/vite": "^4.0.0",
