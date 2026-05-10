@@ -1,28 +1,44 @@
 ---
 const data = [
-  { metric: 'Metric 1', toolkit1: 60, toolkit2: 78, provekit: 100 },
-  { metric: 'Metric 2', toolkit1: 70, toolkit2: 65, provekit: 95 },
-  { metric: 'Metric 3', toolkit1: 55, toolkit2: 72, provekit: 88 },
+  { metric: 'Proving time', toolkit1: 60, toolkit2: 78, provekit: 100 },
+  { metric: 'Memory footprint', toolkit1: 70, toolkit2: 65, provekit: 95 },
+  { metric: 'Verifier gates', toolkit1: 55, toolkit2: 72, provekit: 88 },
 ];
-const colors = {
-  toolkit1: 'var(--color-toolkit-1)',
-  toolkit2: 'var(--color-toolkit-2)',
-  provekit: 'var(--color-toolkit-3)',
-};
+
+const series = [
+  { key: 'toolkit1', label: 'Toolkit A', color: 'var(--color-toolkit-1)' },
+  { key: 'toolkit2', label: 'Toolkit B', color: 'var(--color-toolkit-2)' },
+  { key: 'provekit', label: 'Provekit', color: 'var(--color-toolkit-3)' },
+] as const;
 ---
 
-<figure class="space-y-6" aria-label="Benchmark comparison">
-  <div class="pk-mono flex flex-wrap items-center gap-4 text-xs">
+<figure class="space-y-6" aria-labelledby="bench-chart-label">
+  <figcaption id="bench-chart-label" class="sr-only">
+    Illustrative benchmark comparison; higher is better. {
+      data.map((row) => (
+        <span>
+          {row.metric}:{' '}
+          {series
+            .map((s, i) => `${s.label} ${row[s.key]}${i < series.length - 1 ? ', ' : ''}`)
+            .join('')}
+          .{' '}
+        </span>
+      ))
+    } Numbers are illustrative until full methodology is published.
+  </figcaption>
+
+  <div class="pk-mono flex flex-wrap items-center gap-4 text-xs" aria-hidden="true">
     {
-      (['toolkit1', 'toolkit2', 'provekit'] as const).map((k) => (
+      series.map((s) => (
         <span class="inline-flex items-center gap-2">
-          <span class="inline-block h-2 w-6 rounded-full" style={`background:${colors[k]}`} />
-          {k === 'provekit' ? 'PROVEKIT' : k.replace('toolkit', 'TOOLKIT ')}
+          <span class="inline-block h-2 w-6 rounded-full" style={`background:${s.color}`} />
+          {s.label.toUpperCase()}
         </span>
       ))
     }
   </div>
-  <div class="space-y-5">
+
+  <div class="space-y-5" aria-hidden="true">
     {
       data.map((row) => (
         <div>
@@ -30,11 +46,11 @@ const colors = {
             {row.metric.toUpperCase()}
           </div>
           <div class="space-y-1.5">
-            {(['toolkit1', 'toolkit2', 'provekit'] as const).map((k) => (
-              <div class="h-3 rounded-full bg-[color:var(--color-line-soft)]" aria-hidden="true">
+            {series.map((s) => (
+              <div class="h-3 rounded-full bg-[color:var(--color-line-soft)]">
                 <div
                   class="h-full rounded-full"
-                  style={`width:${row[k]}%;background:${colors[k]}`}
+                  style={`width:${row[s.key]}%;background:${s.color}`}
                 />
               </div>
             ))}
@@ -43,18 +59,23 @@ const colors = {
       ))
     }
   </div>
+
   <div class="flex flex-wrap gap-8 pt-2">
     <div>
       <div class="pk-display text-[clamp(36px,4vw,56px)]" style="color:var(--color-toolkit-3)">
-        +36%
+        ~36%
       </div>
-      <div class="pk-mono text-xs text-[color:var(--color-mute)]">FASTER</div>
+      <div class="pk-mono text-xs text-[color:var(--color-mute)]">FASTER PROVING</div>
     </div>
     <div>
       <div class="pk-display text-[clamp(36px,4vw,56px)]" style="color:var(--color-toolkit-3)">
-        +24%
+        ~24%
       </div>
-      <div class="pk-mono text-xs text-[color:var(--color-mute)]">LIGHTER</div>
+      <div class="pk-mono text-xs text-[color:var(--color-mute)]">LIGHTER MEMORY</div>
     </div>
   </div>
+
+  <p class="pk-mono text-[10px] text-[color:var(--color-mute)]">
+    Illustrative until full methodology is published &mdash; see All Benchmarks.
+  </p>
 </figure>
