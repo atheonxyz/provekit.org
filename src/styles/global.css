@@ -118,13 +118,6 @@
   .pk-btn--primary:hover {
     background: var(--color-brand-hover);
   }
-  .pk-btn--secondary {
-    background: var(--color-surface-2);
-    color: var(--color-ink);
-  }
-  .pk-btn--secondary:hover {
-    background: var(--color-surface-2-hover);
-  }
   .pk-btn--ghost {
     background: transparent;
     color: var(--color-ink);
