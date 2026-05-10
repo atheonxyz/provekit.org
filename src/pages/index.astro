@@ -3,6 +3,7 @@ import BaseLayout from '~/layouts/BaseLayout.astro';
 import TopBar from '~/components/nav/TopBar.astro';
 import Hero from '~/components/hero/Hero.astro';
 import InstallScript from '~/components/install/InstallScript.astro';
+import FeatureGrid from '~/components/features/FeatureGrid.astro';
 ---
 
 <BaseLayout
@@ -19,7 +20,9 @@ import InstallScript from '~/components/install/InstallScript.astro';
     <section aria-labelledby="install-title" class="pk-gutter">
       <InstallScript />
     </section>
-    <section aria-labelledby="features-title" class="pk-gutter"></section>
+    <section aria-labelledby="features-title" class="pk-gutter">
+      <FeatureGrid />
+    </section>
     <section aria-labelledby="credit-title" class="pk-gutter"></section>
     <section aria-labelledby="benchmarks-title" class="pk-gutter"></section>
     <section aria-labelledby="faq-title" class="pk-gutter"></section>
