@@ -5,7 +5,7 @@
 [![Astro](https://img.shields.io/badge/Astro-4.x-FF5D01.svg?logo=astro)](https://astro.build)
 [![pnpm](https://img.shields.io/badge/pnpm-9.x-F69220.svg?logo=pnpm)](https://pnpm.io)
 
-The marketing site for **[Provekit](https://provekit.org)** — a client-side
+The landing page for **[Provekit](https://provekit.org)** — a client-side
 zero-knowledge proving toolkit written in Rust, engineered by
 [**World**](https://world.org), [**Atheon**](https://atheon.xyz) and
 [**Reilabs**](https://reilabs.io).
