@@ -1,25 +1,27 @@
 ---
 import ArrowRight from '~/components/icons/ArrowRight.astro';
-import BenchmarkChart from './BenchmarkChart.astro';
 
 const metrics = [
   {
     num: 1,
     title: 'Proving time',
     body: 'Provekit generates proofs ~36% faster than comparable client-side toolkits on commodity hardware.',
-    active: true,
+    chart: 'Line',
+    kpis: ['+36% Faster', '11.2s @ 2²²'],
   },
   {
     num: 2,
     title: 'Memory footprint',
     body: 'A streamlined Rust core keeps the resident set ~24% lighter than the next nearest toolkit.',
-    active: false,
+    chart: 'Bars',
+    kpis: ['+24% Lighter', '38 MB peak'],
   },
   {
     num: 3,
     title: 'Verification cost',
     body: 'Verifier circuits compile to a fraction of the gate count, keeping verification cheap on chain and off.',
-    active: false,
+    chart: 'Columns',
+    kpis: ['−68% Gates', '32k verify'],
   },
 ];
 
@@ -29,10 +31,59 @@ const legend = [
   { label: 'PROVEKIT', color: '#0D74FF' },
 ];
 
-const kpis = ['+36% Faster', '11.2s @ 2²²'];
+// Line-chart math
+const CHART_W = 640,
+  CHART_H = 320,
+  PAD_L = 56,
+  PAD_R = 24,
+  PAD_T = 24,
+  PAD_B = 48;
+const INNER_W = CHART_W - PAD_L - PAD_R;
+const INNER_H = CHART_H - PAD_T - PAD_B;
+
+// === Metric 0: line chart ===
+const lineX = ['2¹⁰', '2¹⁴', '2¹⁸', '2²²'];
+const lineSeries = [
+  { color: '#DE00FF', values: [0.6, 2.4, 9.5, 38.4], label: 'TOOLKIT 1' },
+  { color: '#E91900', values: [0.4, 1.5, 6.0, 24.0], label: 'TOOLKIT 2' },
+  { color: '#0D74FF', values: [0.18, 0.7, 2.8, 11.2], label: 'PROVEKIT' },
+];
+const lineYMax = 40;
+const lineXAt = (i: number) => PAD_L + (INNER_W * i) / (lineX.length - 1);
+const lineYAt = (v: number) => PAD_T + INNER_H * (1 - v / lineYMax);
+const lineTicks = [0, 0.25, 0.5, 0.75, 1].map((t) => t * lineYMax);
+const lineFmt = (v: number) => `${v >= 10 ? Math.round(v) : Math.round(v * 10) / 10}s`;
+const linePath = (vals: number[]) =>
+  vals.map((v, i) => `${i === 0 ? 'M' : 'L'} ${lineXAt(i)} ${lineYAt(v)}`).join(' ');
+
+// === Metric 1: horizontal bars ===
+const barsSeries = [
+  { color: '#DE00FF', value: 92, label: 'TOOLKIT 1' },
+  { color: '#E91900', value: 64, label: 'TOOLKIT 2' },
+  { color: '#0D74FF', value: 38, label: 'PROVEKIT' },
+];
+const barsMax = 100;
+
+// === Metric 2: columns chart ===
+const colX = ['Setup', 'Compile', 'Verify', 'Settle'];
+const colSeries = [
+  { color: '#DE00FF', values: [42, 38, 90, 120], label: 'TOOLKIT 1' },
+  { color: '#E91900', values: [28, 24, 64, 80], label: 'TOOLKIT 2' },
+  { color: '#0D74FF', values: [18, 14, 32, 42], label: 'PROVEKIT' },
+];
+const colYMax = 120;
+const colYAt = (v: number) => PAD_T + INNER_H * (1 - v / colYMax);
+const colTicks = [0, 0.25, 0.5, 0.75, 1].map((t) => t * colYMax);
+const groupW = INNER_W / colX.length;
+const groupInner = groupW * 0.72;
+const colBarW = (groupInner - (colSeries.length - 1) * 4) / colSeries.length;
 ---
 
-<section style="width:1600px;max-width:100%;display:flex" aria-labelledby="benchmarks-title">
+<section
+  class="pk-bench"
+  style="width:1600px;max-width:100%;display:flex"
+  aria-labelledby="benchmarks-title"
+>
   <!-- LEFT -->
   <div
     style="flex:1 1 0;background:#fff;border:1px solid var(--pk-line);display:flex;flex-direction:column;min-width:0"
@@ -54,15 +105,19 @@ const kpis = ['+36% Faster', '11.2s @ 2²²'];
           metrics.map((m, i) => (
             <>
               <li
-                style={`cursor:pointer;display:flex;flex-direction:column;gap:8px;padding:4px 0 4px 16px;border-left:3px solid ${m.active ? 'var(--pk-brand)' : 'transparent'};margin-left:-19px`}
+                class="pk-bench-item"
+                data-idx={i}
+                tabindex="0"
+                role="button"
+                aria-pressed={i === 0 ? 'true' : 'false'}
+                style="cursor:pointer;display:flex;flex-direction:column;gap:8px;padding:4px 0 4px 16px;border-left:3px solid transparent;margin-left:-19px;transition:border-color 0.18s ease,color 0.18s ease;user-select:none"
               >
-                <div
-                  style={`font:500 28px/1 var(--pk-font-sans);color:${m.active ? 'var(--pk-brand)' : 'var(--pk-ink)'}`}
-                >
+                <div class="pk-bench-num" style="font:500 28px/1 var(--pk-font-sans)">
                   {m.num}.
                 </div>
                 <h3
-                  style={`margin:0;font:500 28px/1 var(--pk-font-sans);letter-spacing:-0.02em;color:${m.active ? 'var(--pk-brand)' : 'var(--pk-ink)'}`}
+                  class="pk-bench-title"
+                  style="margin:0;font:500 28px/1 var(--pk-font-sans);letter-spacing:-0.02em"
                 >
                   {m.title}
                 </h3>
@@ -98,6 +153,7 @@ const kpis = ['+36% Faster', '11.2s @ 2²²'];
     <div style="padding:72px 48px;display:flex;flex-direction:column;flex:1">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
         <span
+          class="pk-bench-chart-label"
           style="font:400 14px/1 var(--pk-font-mono);letter-spacing:0.08em;text-transform:uppercase;color:#808080"
         >
           Proving time · Line
@@ -120,19 +176,275 @@ const kpis = ['+36% Faster', '11.2s @ 2²²'];
             ))
           }
         </div>
-        <BenchmarkChart />
+
+        <!-- Chart 0 — Line -->
+        <div data-chart="0">
+          <svg
+            viewBox={`0 0 ${CHART_W} ${CHART_H}`}
+            style="width:100%;height:auto;display:block"
+            role="img"
+            aria-label="Proving time line chart"
+          >
+            {
+              lineTicks.map((v) => (
+                <g>
+                  <line
+                    x1={PAD_L}
+                    x2={CHART_W - PAD_R}
+                    y1={lineYAt(v)}
+                    y2={lineYAt(v)}
+                    stroke="var(--pk-line)"
+                    stroke-dasharray="3 4"
+                  />
+                  <text
+                    x={PAD_L - 10}
+                    y={lineYAt(v) + 4}
+                    font-size="12"
+                    fill="#808080"
+                    text-anchor="end"
+                    font-family="var(--pk-font-mono)"
+                    letter-spacing="0.04em"
+                  >
+                    {lineFmt(v)}
+                  </text>
+                </g>
+              ))
+            }
+            <line
+              x1={PAD_L}
+              x2={CHART_W - PAD_R}
+              y1={CHART_H - PAD_B}
+              y2={CHART_H - PAD_B}
+              stroke="var(--pk-ink)"
+              stroke-width="1"></line>
+            {
+              lineX.map((l, i) => (
+                <text
+                  x={lineXAt(i)}
+                  y={CHART_H - PAD_B + 22}
+                  font-size="12"
+                  fill="#808080"
+                  text-anchor="middle"
+                  font-family="var(--pk-font-mono)"
+                  letter-spacing="0.04em"
+                >
+                  {l}
+                </text>
+              ))
+            }
+            <text
+              x={PAD_L + INNER_W / 2}
+              y={CHART_H - 6}
+              font-size="10"
+              fill="#808080"
+              text-anchor="middle"
+              font-family="var(--pk-font-mono)"
+              letter-spacing="0.08em"
+            >
+              CIRCUIT SIZE
+            </text>
+            {
+              lineSeries.map((s) => (
+                <path
+                  d={linePath(s.values)}
+                  fill="none"
+                  stroke={s.color}
+                  stroke-width={s.label === 'PROVEKIT' ? 3 : 2}
+                  stroke-linejoin="round"
+                  stroke-linecap="round"
+                />
+              ))
+            }
+            {
+              lineSeries.map((s) =>
+                s.values.map((v, i) => (
+                  <circle
+                    cx={lineXAt(i)}
+                    cy={lineYAt(v)}
+                    r="3.5"
+                    fill={s.color}
+                    stroke={s.color}
+                    stroke-width="2"
+                  />
+                )),
+              )
+            }
+          </svg>
+        </div>
+
+        <!-- Chart 1 — Horizontal bars -->
+        <div data-chart="1" hidden>
+          <div style="position:relative;display:flex;flex-direction:column;gap:36px">
+            {
+              barsSeries.map((s) => {
+                const w = (s.value / barsMax) * 100;
+                return (
+                  <div style="display:flex;align-items:center;gap:12px">
+                    <div style={`position:relative;height:48px;width:${w}%;background:${s.color}`}>
+                      <span style="position:absolute;right:12px;top:16px;color:#fff;font:500 16px/1 var(--pk-font-mono);letter-spacing:0.04em">
+                        {s.value} MB
+                      </span>
+                    </div>
+                    <span style="font:400 18px/1 var(--pk-font-mono);letter-spacing:0.02em;color:#808080">
+                      {s.label}
+                    </span>
+                  </div>
+                );
+              })
+            }
+          </div>
+        </div>
+
+        <!-- Chart 2 — Columns -->
+        <div data-chart="2" hidden>
+          <svg
+            viewBox={`0 0 ${CHART_W} ${CHART_H}`}
+            style="width:100%;height:auto;display:block"
+            role="img"
+            aria-label="Verification cost column chart"
+          >
+            {
+              colTicks.map((v) => (
+                <g>
+                  <line
+                    x1={PAD_L}
+                    x2={CHART_W - PAD_R}
+                    y1={colYAt(v)}
+                    y2={colYAt(v)}
+                    stroke="var(--pk-line)"
+                    stroke-dasharray="3 4"
+                  />
+                  <text
+                    x={PAD_L - 10}
+                    y={colYAt(v) + 4}
+                    font-size="12"
+                    fill="#808080"
+                    text-anchor="end"
+                    font-family="var(--pk-font-mono)"
+                    letter-spacing="0.04em"
+                  >
+                    {Math.round(v)}k
+                  </text>
+                </g>
+              ))
+            }
+            <line
+              x1={PAD_L}
+              x2={CHART_W - PAD_R}
+              y1={CHART_H - PAD_B}
+              y2={CHART_H - PAD_B}
+              stroke="var(--pk-ink)"
+              stroke-width="1"></line>
+            {
+              colX.map((l, i) => {
+                const gLeft = PAD_L + groupW * i;
+                const innerLeft = gLeft + (groupW - groupInner) / 2;
+                return (
+                  <g>
+                    {colSeries.map((s, j) => {
+                      const x = innerLeft + j * (colBarW + 4);
+                      const y = colYAt(s.values[i] ?? 0);
+                      return (
+                        <rect
+                          x={x}
+                          y={y}
+                          width={colBarW}
+                          height={CHART_H - PAD_B - y}
+                          fill={s.color}
+                        />
+                      );
+                    })}
+                    <text
+                      x={gLeft + groupW / 2}
+                      y={CHART_H - PAD_B + 22}
+                      font-size="12"
+                      fill="#808080"
+                      text-anchor="middle"
+                      font-family="var(--pk-font-mono)"
+                      letter-spacing="0.06em"
+                      style="text-transform:uppercase"
+                    >
+                      {l}
+                    </text>
+                  </g>
+                );
+              })
+            }
+            <text
+              x={PAD_L + INNER_W / 2}
+              y={CHART_H - 6}
+              font-size="10"
+              fill="#808080"
+              text-anchor="middle"
+              font-family="var(--pk-font-mono)"
+              letter-spacing="0.08em"
+            >
+              STAGE
+            </text>
+          </svg>
+        </div>
       </div>
     </div>
-    <div style="display:flex">
-      {
-        kpis.map((k, i) => (
-          <div
-            style={`flex:1;padding:48px 24px;text-align:center;border-top:1px solid var(--pk-line);${i < kpis.length - 1 ? 'border-right:1px solid var(--pk-line);' : ''}font:300 48px/1 var(--pk-font-sans);letter-spacing:-0.02em`}
-          >
-            {k}
-          </div>
-        ))
-      }
-    </div>
+    <!-- KPI strip — only the active metric's KPIs are visible -->
+    {
+      metrics.map((m, i) => (
+        <div data-kpis={i} hidden={i !== 0} style="display:flex">
+          {m.kpis.map((k, j) => (
+            <div
+              style={`flex:1;padding:48px 24px;text-align:center;border-top:1px solid var(--pk-line);${j < m.kpis.length - 1 ? 'border-right:1px solid var(--pk-line);' : ''}font:300 48px/1 var(--pk-font-sans);letter-spacing:-0.02em`}
+            >
+              {k}
+            </div>
+          ))}
+        </div>
+      ))
+    }
   </div>
 </section>
+
+<script>
+  const root = document.querySelector<HTMLElement>('.pk-bench');
+  if (root) {
+    const items = root.querySelectorAll<HTMLElement>('[data-idx]');
+    const charts = root.querySelectorAll<HTMLElement>('[data-chart]');
+    const kpis = root.querySelectorAll<HTMLElement>('[data-kpis]');
+    const label = root.querySelector<HTMLElement>('.pk-bench-chart-label');
+    const labels = [
+      'Proving time · Line',
+      'Memory footprint · Bars',
+      'Verification cost · Columns',
+    ];
+
+    function setActive(idx: number) {
+      items.forEach((el, i) => {
+        const active = i === idx;
+        el.style.borderLeftColor = active ? 'var(--pk-brand)' : 'transparent';
+        el.setAttribute('aria-pressed', String(active));
+        const num = el.querySelector<HTMLElement>('.pk-bench-num');
+        const title = el.querySelector<HTMLElement>('.pk-bench-title');
+        if (num) num.style.color = active ? 'var(--pk-brand)' : 'var(--pk-ink)';
+        if (title) title.style.color = active ? 'var(--pk-brand)' : 'var(--pk-ink)';
+      });
+      charts.forEach((el, i) => {
+        el.toggleAttribute('hidden', i !== idx);
+      });
+      kpis.forEach((el, i) => {
+        el.toggleAttribute('hidden', i !== idx);
+      });
+      if (label) label.textContent = labels[idx] ?? '';
+    }
+
+    items.forEach((el, i) => {
+      el.addEventListener('click', () => setActive(i));
+      el.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          setActive(i);
+        }
+      });
+    });
+
+    // Initialize active state styling
+    setActive(0);
+  }
+</script>
