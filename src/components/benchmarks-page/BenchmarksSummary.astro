@@ -1,0 +1,285 @@
+---
+import Panel from '~/components/panel/Panel.astro';
+import { SUMMARY_ROWS, SUMMARY_TOOLKITS } from '~/data/benchmarks';
+
+function barFraction(values: readonly number[], idx: number, better: 'low' | 'high') {
+  const max = Math.max(...values);
+  const min = Math.min(...values);
+  const v = values[idx]!;
+  if (max === min) return 1;
+  if (better === 'low') return 0.25 + (0.75 * (max - v)) / (max - min);
+  return 0.25 + (0.75 * (v - min)) / (max - min);
+}
+
+function isWinner(values: readonly number[], idx: number, better: 'low' | 'high') {
+  const v = values[idx]!;
+  if (better === 'low') {
+    return values.every((x) => v <= x) && values.some((x) => v < x);
+  }
+  return values.every((x) => v >= x) && values.some((x) => v > x);
+}
+
+function fmtN(v: number, unit: string) {
+  const n = v >= 10 ? Math.round(v) : Math.round(v * 100) / 100;
+  return `${n}${unit}`;
+}
+
+// Server-side: default sort by PROVEKIT (idx 2) — strongest first.
+const defaultSortIdx = 2;
+const indexedRows = SUMMARY_ROWS.map((r, originalIdx) => ({ ...r, originalIdx }));
+indexedRows.sort(
+  (a, b) =>
+    barFraction(b.values, defaultSortIdx, b.better) -
+    barFraction(a.values, defaultSortIdx, a.better),
+);
+
+// Serialize data for client script
+const summaryData = JSON.stringify({ rows: SUMMARY_ROWS, toolkits: SUMMARY_TOOLKITS });
+---
+
+<Panel tab="SUMMARY" titleId="summary-title" contentStyle="display:flex;flex-direction:column">
+  <div class="pk-summary" data-summary-data={summaryData} data-sort-idx={defaultSortIdx}>
+    <div
+      style="padding:56px 48px 32px;display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap"
+    >
+      <div>
+        <h2
+          id="summary-title"
+          class="pk-reveal"
+          style="margin:0;font:500 48px/56px var(--pk-font-sans);letter-spacing:-0.02em;color:var(--pk-ink)"
+        >
+          Side-by-side
+        </h2>
+        <p
+          class="pk-reveal"
+          style="margin:16px 0 0;max-width:760px;font:300 20px/1.4 var(--pk-font-sans);color:var(--pk-mute-2)"
+        >
+          Hover a row to compare across toolkits; click a toolkit header to sort by its strongest
+          results. Best value per row reads in brand blue.
+        </p>
+      </div>
+      <div
+        data-sort-indicator
+        style="font:400 13px/1 var(--pk-font-mono);letter-spacing:0.08em;text-transform:uppercase;color:var(--pk-mute-2);display:flex;align-items:center;gap:8px"
+      >
+        Sorted by
+        <span
+          data-sort-swatch
+          style={`width:10px;height:10px;display:inline-block;background:${SUMMARY_TOOLKITS[defaultSortIdx]?.color}`}
+        ></span>
+        <span data-sort-label style="color:var(--pk-ink)">
+          {SUMMARY_TOOLKITS[defaultSortIdx]?.label}
+        </span>
+        <button
+          data-sort-reset
+          type="button"
+          style="margin-left:8px;padding:4px 8px;border:1px solid var(--pk-line);background:#fff;font:400 11px/1 var(--pk-font-mono);letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;color:var(--pk-mute-2)"
+        >
+          Reset
+        </button>
+      </div>
+    </div>
+
+    <div style="border-top:1px solid var(--pk-line)">
+      <!-- Header row -->
+      <div
+        class="pk-summary-header"
+        style="display:grid;grid-template-columns:1fr repeat(3, 220px);border-bottom:1px solid var(--pk-line)"
+      >
+        <div
+          style="padding:20px 48px;font:400 13px/1 var(--pk-font-mono);letter-spacing:0.08em;text-transform:uppercase;color:var(--pk-mute-2)"
+        >
+          Metric
+        </div>
+        {
+          SUMMARY_TOOLKITS.map((t, i) => (
+            <div
+              class="pk-summary-th"
+              data-col={i}
+              role="button"
+              tabindex="0"
+              style="padding:20px 24px;border-left:1px solid var(--pk-line);display:flex;align-items:center;justify-content:space-between;gap:8px;font:400 14px/1 var(--pk-font-mono);letter-spacing:0.06em;text-transform:uppercase;color:var(--pk-ink);cursor:pointer;user-select:none;transition:background 0.18s ease"
+            >
+              <span style="display:inline-flex;align-items:center;gap:8px">
+                <span
+                  style={`width:12px;height:12px;background:${t.color};display:inline-block`}
+                  aria-hidden="true"
+                />
+                {t.label}
+              </span>
+              <span
+                data-th-arrow
+                style="font:400 11px/1 var(--pk-font-mono);letter-spacing:0.08em;color:var(--pk-mute-3)"
+              >
+                ↕
+              </span>
+            </div>
+          ))
+        }
+      </div>
+
+      <!-- Rows -->
+      <div data-summary-rows>
+        {
+          indexedRows.map((row) => (
+            <div
+              class="pk-summary-row"
+              data-original={row.originalIdx}
+              style="display:grid;grid-template-columns:1fr repeat(3, 220px);border-bottom:1px solid var(--pk-line);transition:background 0.18s ease"
+            >
+              <div style="padding:28px 48px;display:flex;align-items:center;gap:12px;font:500 22px/1.1 var(--pk-font-sans);color:var(--pk-ink)">
+                <span style="font:400 11px/1 var(--pk-font-mono);letter-spacing:0.08em;color:var(--pk-mute-3);min-width:22px">
+                  {String(row.originalIdx + 1).padStart(2, '0')}
+                </span>
+                {row.label}
+                <span style="font:400 11px/1 var(--pk-font-mono);letter-spacing:0.06em;text-transform:uppercase;color:var(--pk-mute-3)">
+                  {row.better === 'low' ? '↓ better' : '↑ better'}
+                </span>
+              </div>
+              {row.values.map((v, i) => {
+                const win = isWinner(row.values, i, row.better);
+                const frac = barFraction(row.values, i, row.better);
+                return (
+                  <div
+                    class="pk-summary-cell"
+                    data-col={i}
+                    style="padding:0;border-left:1px solid var(--pk-line);position:relative;height:88px;transition:background 0.18s ease"
+                  >
+                    <div
+                      class="pk-summary-bar"
+                      style={`position:absolute;left:0;top:0;bottom:0;width:${frac * 100}%;background:${SUMMARY_TOOLKITS[i]?.color};opacity:0.08;transition:opacity 0.2s ease,width 0.4s cubic-bezier(.2,.8,.2,1)`}
+                    />
+                    <div
+                      style={`position:relative;padding:28px 24px;display:flex;align-items:baseline;gap:8px;font:400 28px/1 var(--pk-font-mono);letter-spacing:0.02em;color:${win ? 'var(--pk-brand)' : 'var(--pk-ink)'}`}
+                    >
+                      {fmtN(v, row.unit)}
+                      {win && (
+                        <span style="font:400 11px/1 var(--pk-font-mono);letter-spacing:0.08em;color:var(--pk-brand);text-transform:uppercase">
+                          best
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</Panel>
+
+<style is:global>
+  .pk-summary-row:hover {
+    background: rgba(13, 116, 255, 0.03);
+  }
+  .pk-summary-row:hover .pk-summary-bar {
+    opacity: 0.18;
+  }
+  .pk-summary-th:hover,
+  .pk-summary-th[data-sorted='true'] {
+    background: rgba(13, 116, 255, 0.06);
+  }
+</style>
+
+<script>
+  interface SummaryRow {
+    label: string;
+    unit: string;
+    values: number[];
+    better: 'low' | 'high';
+  }
+  interface SummaryData {
+    rows: SummaryRow[];
+    toolkits: { label: string; color: string }[];
+  }
+
+  function barFrac(values: number[], idx: number, better: 'low' | 'high') {
+    const max = Math.max(...values);
+    const min = Math.min(...values);
+    const v = values[idx]!;
+    if (max === min) return 1;
+    if (better === 'low') return 0.25 + (0.75 * (max - v)) / (max - min);
+    return 0.25 + (0.75 * (v - min)) / (max - min);
+  }
+
+  document.querySelectorAll<HTMLElement>('.pk-summary').forEach((root) => {
+    const raw = root.dataset.summaryData ?? '{}';
+    const data = JSON.parse(raw) as SummaryData;
+    const initialSort = Number(root.dataset.sortIdx ?? '-1');
+    let sortIdx: number | null = initialSort >= 0 ? initialSort : null;
+
+    const ths = Array.from(root.querySelectorAll<HTMLElement>('.pk-summary-th'));
+    const rowsContainer = root.querySelector<HTMLElement>('[data-summary-rows]');
+    const rows = Array.from(root.querySelectorAll<HTMLElement>('.pk-summary-row'));
+    const indicator = root.querySelector<HTMLElement>('[data-sort-indicator]');
+    const swatch = root.querySelector<HTMLElement>('[data-sort-swatch]');
+    const sortLabel = root.querySelector<HTMLElement>('[data-sort-label]');
+    const resetBtn = root.querySelector<HTMLButtonElement>('[data-sort-reset]');
+
+    function paintHeaders() {
+      ths.forEach((th, i) => {
+        const isSorted = sortIdx === i;
+        th.setAttribute('data-sorted', String(isSorted));
+        const arrow = th.querySelector<HTMLElement>('[data-th-arrow]');
+        if (arrow) {
+          arrow.textContent = isSorted ? '▼' : '↕';
+          arrow.style.color = isSorted ? 'var(--pk-brand)' : 'var(--pk-mute-3)';
+        }
+      });
+      if (indicator) indicator.style.display = sortIdx == null ? 'none' : 'flex';
+      if (sortIdx != null) {
+        const t = data.toolkits[sortIdx];
+        if (t) {
+          if (swatch) swatch.style.background = t.color;
+          if (sortLabel) sortLabel.textContent = t.label;
+        }
+      }
+    }
+
+    function applySort() {
+      if (sortIdx == null) {
+        // Restore original order
+        const sorted = rows.slice().sort((a, b) => {
+          return Number(a.dataset.original ?? 0) - Number(b.dataset.original ?? 0);
+        });
+        sorted.forEach((r) => rowsContainer?.appendChild(r));
+        return;
+      }
+      const idx = sortIdx;
+      const sorted = rows.slice().sort((a, b) => {
+        const ai = Number(a.dataset.original ?? 0);
+        const bi = Number(b.dataset.original ?? 0);
+        const ra = data.rows[ai];
+        const rb = data.rows[bi];
+        if (!ra || !rb) return 0;
+        return barFrac(rb.values, idx, rb.better) - barFrac(ra.values, idx, ra.better);
+      });
+      sorted.forEach((r) => rowsContainer?.appendChild(r));
+    }
+
+    ths.forEach((th, i) => {
+      const click = () => {
+        sortIdx = sortIdx === i ? null : i;
+        paintHeaders();
+        applySort();
+      };
+      th.addEventListener('click', click);
+      th.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          click();
+        }
+      });
+    });
+
+    resetBtn?.addEventListener('click', () => {
+      sortIdx = null;
+      paintHeaders();
+      applySort();
+    });
+
+    paintHeaders();
+  });
+</script>

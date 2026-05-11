@@ -1,0 +1,206 @@
+---
+import type { LineMetric } from '~/data/benchmarks';
+
+interface Props {
+  metric: LineMetric;
+}
+const { metric } = Astro.props;
+
+const CHART_W = 640,
+  CHART_H = 320,
+  PAD_L = 56,
+  PAD_R = 24,
+  PAD_T = 24,
+  PAD_B = 48;
+const INNER_W = CHART_W - PAD_L - PAD_R;
+const INNER_H = CHART_H - PAD_T - PAD_B;
+
+const xAt = (i: number) => PAD_L + (INNER_W * i) / (metric.xLabels.length - 1);
+const yAt = (v: number) => PAD_T + INNER_H * (1 - v / metric.yMax);
+const yTicks = [0, 0.25, 0.5, 0.75, 1].map((t) => t * metric.yMax);
+const fmt = (v: number) => `${v >= 10 ? Math.round(v) : Math.round(v * 10) / 10}${metric.unit}`;
+const path = (vals: number[]) =>
+  vals.map((v, i) => `${i === 0 ? 'M' : 'L'} ${xAt(i)} ${yAt(v)}`).join(' ');
+
+const lineData = JSON.stringify({
+  CHART_W,
+  CHART_H,
+  PAD_L,
+  PAD_R,
+  PAD_T,
+  PAD_B,
+  INNER_W,
+  xLabels: metric.xLabels,
+  series: metric.series,
+  yMax: metric.yMax,
+  unit: metric.unit,
+});
+---
+
+<svg
+  class="pk-line-chart"
+  data-line-data={lineData}
+  viewBox={`0 0 ${CHART_W} ${CHART_H}`}
+  style="width:100%;height:auto;display:block"
+  role="img"
+  aria-label={`${metric.title} line chart`}
+>
+  {
+    yTicks.map((v) => (
+      <g>
+        <line
+          x1={PAD_L}
+          x2={CHART_W - PAD_R}
+          y1={yAt(v)}
+          y2={yAt(v)}
+          stroke="var(--pk-line)"
+          stroke-dasharray="3 4"
+        />
+        <text
+          x={PAD_L - 10}
+          y={yAt(v) + 4}
+          font-size="12"
+          fill="#808080"
+          text-anchor="end"
+          font-family="var(--pk-font-mono)"
+          letter-spacing="0.04em"
+        >
+          {fmt(v)}
+        </text>
+      </g>
+    ))
+  }
+  <line
+    x1={PAD_L}
+    x2={CHART_W - PAD_R}
+    y1={CHART_H - PAD_B}
+    y2={CHART_H - PAD_B}
+    stroke="var(--pk-ink)"
+    stroke-width="1"></line>
+  {
+    metric.xLabels.map((l, i) => (
+      <text
+        x={xAt(i)}
+        y={CHART_H - PAD_B + 22}
+        font-size="12"
+        fill="#808080"
+        text-anchor="middle"
+        font-family="var(--pk-font-mono)"
+        letter-spacing="0.04em"
+      >
+        {l}
+      </text>
+    ))
+  }
+  <text
+    x={PAD_L + INNER_W / 2}
+    y={CHART_H - 6}
+    font-size="10"
+    fill="#808080"
+    text-anchor="middle"
+    font-family="var(--pk-font-mono)"
+    letter-spacing="0.08em"
+  >
+    {metric.xAxisLabel}
+  </text>
+  <line
+    data-line-guide
+    x1="0"
+    x2="0"
+    y1={PAD_T}
+    y2={CHART_H - PAD_B}
+    stroke="var(--pk-ink)"
+    stroke-dasharray="2 4"
+    style="opacity:0;transition:transform 0.28s cubic-bezier(.2,.8,.2,1),opacity 0.2s ease"></line>
+  {
+    metric.series.map((s) => (
+      <path
+        d={path(s.values)}
+        fill="none"
+        stroke={s.color}
+        stroke-width={s.label === 'PROVEKIT' ? 3 : 2}
+        stroke-linejoin="round"
+        stroke-linecap="round"
+      />
+    ))
+  }
+  {
+    metric.series.map((s, si) =>
+      s.values.map((v, i) => (
+        <circle
+          data-line-dot
+          data-si={si}
+          data-i={i}
+          cx={xAt(i)}
+          cy={yAt(v)}
+          r="3.5"
+          fill={s.color}
+          stroke={s.color}
+          stroke-width="2"
+          style="transition:r 0.22s ease,fill 0.22s ease"
+        />
+      )),
+    )
+  }
+  <g
+    data-line-tip
+    style="opacity:0;transition:transform 0.28s cubic-bezier(.2,.8,.2,1),opacity 0.2s ease;pointer-events:none"
+  >
+    <rect
+      data-tip-rect
+      x="0"
+      y="0"
+      width="168"
+      height="92"
+      fill="#fff"
+      stroke="var(--pk-ink)"
+      stroke-width="1"></rect>
+    <text
+      data-tip-x
+      x="12"
+      y="20"
+      font-size="11"
+      fill="#808080"
+      font-family="var(--pk-font-mono)"
+      letter-spacing="0.06em">{metric.xLabels[0]}</text
+    >
+    {
+      [0, 1, 2].map((i) => (
+        <g>
+          <rect data-tip-sw={i} x="12" y={32 + i * 18} width="9" height="9" fill="#000" />
+          <text
+            data-tip-label={i}
+            x="28"
+            y={40 + i * 18}
+            font-size="11"
+            fill="#2D2D2B"
+            font-family="var(--pk-font-mono)"
+            letter-spacing="0.04em"
+          >
+            Toolkit
+          </text>
+          <text
+            data-tip-value={i}
+            x="156"
+            y={40 + i * 18}
+            font-size="11"
+            fill="#2D2D2B"
+            text-anchor="end"
+            font-family="var(--pk-font-mono)"
+            letter-spacing="0.04em"
+          >
+            0s
+          </text>
+        </g>
+      ))
+    }
+  </g>
+  <rect
+    data-line-capture
+    x={PAD_L}
+    y={PAD_T}
+    width={INNER_W}
+    height={INNER_H}
+    fill="transparent"
+    style="cursor:crosshair"></rect>
+</svg>

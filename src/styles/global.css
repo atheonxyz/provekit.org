@@ -252,6 +252,31 @@
     }
   }
 
+  /* Bars chart hover (dim non-hovered rows; reveal value label) */
+  .pk-bars:hover .pk-bars-row {
+    opacity: 0.35;
+  }
+  .pk-bars:hover .pk-bars-row:hover {
+    opacity: 1;
+  }
+  .pk-bars .pk-bars-row:hover .pk-bars-value {
+    opacity: 1;
+  }
+  .pk-bars .pk-bars-row:hover .pk-bars-label {
+    color: var(--pk-ink);
+  }
+
+  /* Columns chart hover (hatch overlay + value labels fade in per group) */
+  .pk-col-group:hover .pk-col-hatch {
+    opacity: 1;
+  }
+  .pk-col-group:hover .pk-col-value {
+    opacity: 1;
+  }
+  .pk-col-group:hover .pk-col-label {
+    fill: var(--pk-ink);
+  }
+
   /* Reveal-on-scroll (only when JS is enabled) */
   .js .pk-reveal {
     opacity: 0;

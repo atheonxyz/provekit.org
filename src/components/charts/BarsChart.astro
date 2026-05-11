@@ -1,0 +1,40 @@
+---
+import type { BarsMetric } from '~/data/benchmarks';
+
+interface Props {
+  metric: BarsMetric;
+}
+const { metric } = Astro.props;
+---
+
+<div class="pk-bars" style="position:relative;display:flex;flex-direction:column;gap:36px">
+  {
+    metric.series.map((s) => {
+      const w = (s.value / metric.max) * 100;
+      return (
+        <div
+          class="pk-bars-row"
+          style="display:flex;align-items:center;gap:12px;cursor:pointer;transition:opacity 0.18s ease"
+        >
+          <div
+            style={`position:relative;height:48px;width:${w}%;background:${s.color};transition:width 0.5s cubic-bezier(.2,.8,.2,1)`}
+          >
+            <span
+              class="pk-bars-value"
+              style="position:absolute;right:12px;top:16px;color:#fff;font:500 16px/1 var(--pk-font-mono);letter-spacing:0.04em;opacity:0;transition:opacity 0.22s ease"
+            >
+              {s.value}
+              {metric.unit}
+            </span>
+          </div>
+          <span
+            class="pk-bars-label"
+            style="font:400 18px/1 var(--pk-font-mono);letter-spacing:0.02em;color:#808080;transition:color 0.22s ease"
+          >
+            {s.label}
+          </span>
+        </div>
+      );
+    })
+  }
+</div>

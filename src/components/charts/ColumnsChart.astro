@@ -1,0 +1,161 @@
+---
+import type { ColumnsMetric } from '~/data/benchmarks';
+
+interface Props {
+  metric: ColumnsMetric;
+  hatchId?: string;
+}
+const { metric, hatchId = 'pk-col-hatch' } = Astro.props;
+
+const CHART_W = 640,
+  CHART_H = 320,
+  PAD_L = 56,
+  PAD_R = 24,
+  PAD_T = 24,
+  PAD_B = 48;
+const INNER_W = CHART_W - PAD_L - PAD_R;
+const INNER_H = CHART_H - PAD_T - PAD_B;
+
+const yAt = (v: number) => PAD_T + INNER_H * (1 - v / metric.yMax);
+const yTicks = [0, 0.25, 0.5, 0.75, 1].map((t) => t * metric.yMax);
+const groupW = INNER_W / metric.xLabels.length;
+const groupInner = groupW * 0.72;
+const barW = (groupInner - (metric.series.length - 1) * 4) / metric.series.length;
+---
+
+<svg
+  class="pk-cols-chart"
+  viewBox={`0 0 ${CHART_W} ${CHART_H}`}
+  style="width:100%;height:auto;display:block"
+  role="img"
+  aria-label={`${metric.title} column chart`}
+>
+  <defs>
+    <pattern
+      id={hatchId}
+      patternUnits="userSpaceOnUse"
+      width="6"
+      height="6"
+      patternTransform="rotate(45)"
+    >
+      <line
+        x1="0"
+        y1="0"
+        x2="0"
+        y2="6"
+        stroke="var(--pk-ink)"
+        stroke-width="1"
+        stroke-opacity="0.12"></line>
+    </pattern>
+  </defs>
+  {
+    yTicks.map((v) => (
+      <g>
+        <line
+          x1={PAD_L}
+          x2={CHART_W - PAD_R}
+          y1={yAt(v)}
+          y2={yAt(v)}
+          stroke="var(--pk-line)"
+          stroke-dasharray="3 4"
+        />
+        <text
+          x={PAD_L - 10}
+          y={yAt(v) + 4}
+          font-size="12"
+          fill="#808080"
+          text-anchor="end"
+          font-family="var(--pk-font-mono)"
+          letter-spacing="0.04em"
+        >
+          {Math.round(v)}
+          {metric.unit}
+        </text>
+      </g>
+    ))
+  }
+  <line
+    x1={PAD_L}
+    x2={CHART_W - PAD_R}
+    y1={CHART_H - PAD_B}
+    y2={CHART_H - PAD_B}
+    stroke="var(--pk-ink)"
+    stroke-width="1"></line>
+  {
+    metric.xLabels.map((l, i) => {
+      const gLeft = PAD_L + groupW * i;
+      const innerLeft = gLeft + (groupW - groupInner) / 2;
+      return (
+        <g class="pk-col-group">
+          <rect
+            class="pk-col-hatch"
+            x={gLeft}
+            y={PAD_T}
+            width={groupW}
+            height={INNER_H}
+            fill={`url(#${hatchId})`}
+            style="opacity:0;transition:opacity 0.28s ease;pointer-events:none"
+          />
+          <rect
+            class="pk-col-capture"
+            x={gLeft}
+            y={PAD_T}
+            width={groupW}
+            height={INNER_H}
+            fill="transparent"
+            style="cursor:pointer"
+          />
+          {metric.series.map((s, j) => {
+            const x = innerLeft + j * (barW + 4);
+            const y = yAt(s.values[i] ?? 0);
+            return (
+              <g style="pointer-events:none">
+                <rect x={x} y={y} width={barW} height={CHART_H - PAD_B - y} fill={s.color} />
+                <text
+                  class="pk-col-value"
+                  x={x + barW / 2}
+                  y={y - 6}
+                  font-size="11"
+                  fill="#2D2D2B"
+                  text-anchor="middle"
+                  font-family="var(--pk-font-mono)"
+                  letter-spacing="0.04em"
+                  stroke="#fff"
+                  stroke-width="3"
+                  paint-order="stroke"
+                  style="opacity:0;transition:opacity 0.22s ease"
+                >
+                  {s.values[i]}
+                </text>
+              </g>
+            );
+          })}
+          <text
+            class="pk-col-label"
+            x={gLeft + groupW / 2}
+            y={CHART_H - PAD_B + 22}
+            font-size="12"
+            fill="#808080"
+            text-anchor="middle"
+            font-family="var(--pk-font-mono)"
+            letter-spacing="0.06em"
+            style="text-transform:uppercase;transition:fill 0.28s ease;pointer-events:none"
+          >
+            {l}
+          </text>
+        </g>
+      );
+    })
+  }
+  <text
+    x={PAD_L + INNER_W / 2}
+    y={CHART_H - 6}
+    font-size="10"
+    fill="#808080"
+    text-anchor="middle"
+    font-family="var(--pk-font-mono)"
+    letter-spacing="0.08em"
+  >
+    {metric.xAxisLabel}
+  </text>
+</svg>

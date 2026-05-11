@@ -1,6 +1,21 @@
 ---
-const product = ['DOCS', 'GUIDE', 'BENCHMARKS'];
-const community = ['TELEGRAM', 'TWITTER', 'GITHUB'];
+interface Props {
+  onBenchmarks?: boolean;
+}
+const { onBenchmarks = false } = Astro.props;
+
+const product = [
+  { label: 'DOCS', href: '#', todo: 'docs' },
+  { label: 'GUIDE', href: '#', todo: 'guide' },
+  onBenchmarks
+    ? { label: 'HOME', href: '/', todo: undefined }
+    : { label: 'BENCHMARKS', href: '/benchmarks', todo: undefined },
+];
+const community = [
+  { label: 'TELEGRAM', href: '#', todo: 'telegram' },
+  { label: 'TWITTER', href: '#', todo: 'twitter' },
+  { label: 'GITHUB', href: '#', todo: 'github' },
+];
 ---
 
 <footer
@@ -11,18 +26,18 @@ const community = ['TELEGRAM', 'TWITTER', 'GITHUB'];
   >
     <div style="display:flex;gap:8px;flex-wrap:wrap">
       {
-        product.map((label) => (
-          <a class="pk-chip" href="#" data-todo={label.toLowerCase()}>
-            {label}
+        product.map((l) => (
+          <a class="pk-chip" href={l.href} data-todo={l.todo}>
+            {l.label}
           </a>
         ))
       }
     </div>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
       {
-        community.map((label) => (
-          <a class="pk-chip" href="#" data-todo={label.toLowerCase()}>
-            {label}
+        community.map((l) => (
+          <a class="pk-chip" href={l.href} data-todo={l.todo}>
+            {l.label}
           </a>
         ))
       }
