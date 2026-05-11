@@ -8,6 +8,16 @@ const { metric } = Astro.props;
 ---
 
 <div class="pk-bars" style="position:relative;display:flex;flex-direction:column;gap:36px">
+  <!-- 9 vertical dashed gridlines at 10%..90% (matches BenchmarkSection JSX) -->
+  <div style="position:absolute;inset:0;pointer-events:none" aria-hidden="true">
+    {
+      Array.from({ length: 9 }).map((_, i) => (
+        <div
+          style={`position:absolute;top:0;bottom:0;left:${(i + 1) * 10}%;border-left:1px dashed var(--pk-line)`}
+        />
+      ))
+    }
+  </div>
   {
     metric.series.map((s) => {
       const w = (s.value / metric.max) * 100;

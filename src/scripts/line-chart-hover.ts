@@ -40,15 +40,21 @@ function attach(svg: SVGSVGElement) {
   const capture = svg.querySelector<SVGRectElement>('[data-line-capture]');
   if (!guide || !tip || !capture) return;
 
+  // Last positions so mouseleave fades the tip/guide out from where they were,
+  // not from translateX(0) which causes a visible snap.
+  let lastGuideX = d.PAD_L;
+  let lastTipTx = d.PAD_L;
+  let lastTipTy = d.PAD_T;
+
   function setHover(i: number | null) {
     if (i == null) {
       guide!.setAttribute(
         'style',
-        'opacity:0;transition:transform 0.28s cubic-bezier(.2,.8,.2,1),opacity 0.2s ease',
+        `transform:translateX(${lastGuideX}px);opacity:0;transition:transform 0.28s cubic-bezier(.2,.8,.2,1),opacity 0.2s ease`,
       );
       tip!.setAttribute(
         'style',
-        'opacity:0;transition:transform 0.28s cubic-bezier(.2,.8,.2,1),opacity 0.2s ease;pointer-events:none',
+        `transform:translate(${lastTipTx}px,${lastTipTy}px);opacity:0;transition:transform 0.28s cubic-bezier(.2,.8,.2,1),opacity 0.2s ease;pointer-events:none`,
       );
       dots.forEach((dot) => {
         dot.setAttribute('r', '3.5');
@@ -60,6 +66,7 @@ function attach(svg: SVGSVGElement) {
     }
 
     const gx = xAt(i);
+    lastGuideX = gx;
     guide!.setAttribute(
       'style',
       `transform:translateX(${gx}px);opacity:0.5;transition:transform 0.28s cubic-bezier(.2,.8,.2,1),opacity 0.2s ease`,
@@ -72,6 +79,8 @@ function attach(svg: SVGSVGElement) {
     let tx = gx + 14;
     if (tx + tw > d.CHART_W - d.PAD_R) tx = gx - tw - 14;
     const ty = d.PAD_T + 8;
+    lastTipTx = tx;
+    lastTipTy = ty;
     tip!.setAttribute(
       'style',
       `transform:translate(${tx}px,${ty}px);opacity:1;transition:transform 0.28s cubic-bezier(.2,.8,.2,1),opacity 0.2s ease;pointer-events:none`,

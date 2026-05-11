@@ -181,6 +181,15 @@ const summaryData = JSON.stringify({ rows: SUMMARY_ROWS, toolkits: SUMMARY_TOOLK
   .pk-summary-th[data-sorted='true'] {
     background: rgba(13, 116, 255, 0.06);
   }
+  /* Column emphasis: every cell in the active/hovered column tints
+   * (matches BenchmarksSummary JSX's colHover logic). */
+  .pk-summary-cell[data-col-active='true'],
+  .pk-summary-cell[data-col-hover='true'] {
+    background: rgba(13, 116, 255, 0.03);
+  }
+  .pk-summary-cell[data-col-active='true'] {
+    background: rgba(13, 116, 255, 0.06);
+  }
 </style>
 
 <script>
@@ -213,10 +222,21 @@ const summaryData = JSON.stringify({ rows: SUMMARY_ROWS, toolkits: SUMMARY_TOOLK
     const ths = Array.from(root.querySelectorAll<HTMLElement>('.pk-summary-th'));
     const rowsContainer = root.querySelector<HTMLElement>('[data-summary-rows]');
     const rows = Array.from(root.querySelectorAll<HTMLElement>('.pk-summary-row'));
+    const cells = Array.from(root.querySelectorAll<HTMLElement>('.pk-summary-cell'));
     const indicator = root.querySelector<HTMLElement>('[data-sort-indicator]');
     const swatch = root.querySelector<HTMLElement>('[data-sort-swatch]');
     const sortLabel = root.querySelector<HTMLElement>('[data-sort-label]');
     const resetBtn = root.querySelector<HTMLButtonElement>('[data-sort-reset]');
+
+    let hoverCol: number | null = null;
+
+    function paintColumn() {
+      cells.forEach((cell) => {
+        const col = Number(cell.dataset.col ?? '-1');
+        cell.setAttribute('data-col-active', String(sortIdx === col));
+        cell.setAttribute('data-col-hover', String(hoverCol === col && hoverCol !== sortIdx));
+      });
+    }
 
     function paintHeaders() {
       ths.forEach((th, i) => {
@@ -236,6 +256,7 @@ const summaryData = JSON.stringify({ rows: SUMMARY_ROWS, toolkits: SUMMARY_TOOLK
           if (sortLabel) sortLabel.textContent = t.label;
         }
       }
+      paintColumn();
     }
 
     function applySort() {
@@ -271,6 +292,26 @@ const summaryData = JSON.stringify({ rows: SUMMARY_ROWS, toolkits: SUMMARY_TOOLK
           e.preventDefault();
           click();
         }
+      });
+      th.addEventListener('mouseenter', () => {
+        hoverCol = i;
+        paintColumn();
+      });
+      th.addEventListener('mouseleave', () => {
+        hoverCol = null;
+        paintColumn();
+      });
+    });
+
+    // Also let cells hover-tint their own column
+    cells.forEach((cell) => {
+      cell.addEventListener('mouseenter', () => {
+        hoverCol = Number(cell.dataset.col ?? '-1');
+        paintColumn();
+      });
+      cell.addEventListener('mouseleave', () => {
+        hoverCol = null;
+        paintColumn();
       });
     });
 
