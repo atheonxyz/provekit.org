@@ -22,7 +22,13 @@ const { q, a, open = false } = Astro.props;
       <span class="pk-faq-glyph-closed">→</span><span class="pk-faq-glyph-open">−</span>
     </span>
   </summary>
-  {a && <p style="margin:16px 0 0;font:300 22px/1.4 var(--pk-font-sans);color:#808080">{a}</p>}
+  {
+    a && (
+      <p style="margin:16px 0 0;font:300 22px/1.4 var(--pk-font-sans);color:var(--pk-mute-2)">
+        {a}
+      </p>
+    )
+  }
 </details>
 
 <style is:global>

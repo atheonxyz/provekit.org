@@ -170,7 +170,7 @@
   .pk-bench-item:hover .pk-bench-title {
     color: var(--pk-brand) !important;
   }
-  .pk-bench-item[aria-pressed='true']:hover {
+  .pk-bench-item[aria-selected='true']:hover {
     border-left-color: var(--pk-brand) !important;
   }
 
