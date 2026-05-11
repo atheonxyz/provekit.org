@@ -252,6 +252,30 @@
     }
   }
 
+  /* Line-chart tooltip: each value flips in when the cursor moves to a new x-tick.
+   * Direct port of the inline <style> in BenchmarkSection.jsx#LineChart. */
+  @keyframes pk-tip-flip {
+    0% {
+      transform: translateY(-8px);
+      opacity: 0;
+    }
+    60% {
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  .pk-tip-flip {
+    animation: pk-tip-flip 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pk-tip-flip {
+      animation: none;
+    }
+  }
+
   /* Bars chart hover (dim non-hovered rows; reveal value label) */
   .pk-bars:hover .pk-bars-row {
     opacity: 0.35;

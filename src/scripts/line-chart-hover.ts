@@ -91,6 +91,11 @@ function attach(svg: SVGSVGElement) {
       if (value) {
         value.textContent = fmt(s.v);
         value.setAttribute('x', String(tw - 12));
+        // Re-trigger the flip-in animation on each value update
+        value.classList.remove('pk-tip-flip');
+        // Force reflow so removing + re-adding the class restarts the animation
+        void value.getBoundingClientRect();
+        value.classList.add('pk-tip-flip');
       }
     });
 
