@@ -6,9 +6,7 @@
 [![pnpm](https://img.shields.io/badge/pnpm-9.x-F69220.svg?logo=pnpm)](https://pnpm.io)
 
 The landing page for **[Provekit](https://provekit.org)** — a client-side
-zero-knowledge proving toolkit written in Rust, engineered by
-[**World**](https://world.org), [**Atheon**](https://atheon.xyz) and
-[**Reilabs**](https://reilabs.io).
+zero-knowledge proving toolkit written in Rust.
 
 The site is a 1:1 implementation of the official Provekit Design System: a
 fixed-width 1600px stage of stacked, bordered panels with category tabs,
