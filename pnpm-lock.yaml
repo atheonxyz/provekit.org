@@ -14,9 +14,6 @@ importers:
       '@fontsource/geist-mono':
         specifier: ^5.1.0
         version: 5.2.7
-      '@fontsource/host-grotesk':
-        specifier: ^5.2.8
-        version: 5.2.8
       '@fontsource/outfit':
         specifier: ^5.1.0
         version: 5.2.8
@@ -472,9 +469,6 @@ packages:
 
   '@fontsource/geist-mono@5.2.7':
     resolution: {integrity: sha512-xVPVFISJg/K0VVd+aQN0Y7X/sw9hUcJPyDWFJ5GpyU3bHELhoRsJkPSRSHXW32mOi0xZCUQDOaPj1sqIFJ1FGg==}
-
-  '@fontsource/host-grotesk@5.2.8':
-    resolution: {integrity: sha512-bRSd8xBXXFbIU9oTIkecdcUjroUf0a7qtGM4J7oJeb86QXX2FiLt16H8n8PGc4SLsL/isRgm3N3ncPs3Vzz3ig==}
 
   '@fontsource/outfit@5.2.8':
     resolution: {integrity: sha512-rXC6g0MqD7cOBjht0bMqc43qM6lRqDLML9KXsmg9uykz0wLQhy8Z/ajrMG6iyoT3NJR+MYgU+OEHp7uHoTb+Yw==}
@@ -4456,8 +4450,6 @@ snapshots:
   '@exodus/bytes@1.15.0': {}
 
   '@fontsource/geist-mono@5.2.7': {}
-
-  '@fontsource/host-grotesk@5.2.8': {}
 
   '@fontsource/outfit@5.2.8': {}
 
