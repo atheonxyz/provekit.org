@@ -29,18 +29,27 @@ const community = ['TELEGRAM', 'TWITTER', 'GITHUB'];
     </div>
   </div>
 
-  <!-- Giant Provekit wordmark, full-bleed, clipped at the bottom -->
+  <!-- Giant Provekit wordmark, full-bleed, clipped at the bottom.
+       On hover, fades into an ASCII-shader canvas rendering. -->
   <div
-    style="width:100%;margin-top:24px;margin-bottom:-32px;position:relative;overflow:hidden"
+    data-ascii-wordmark
+    style="width:100%;margin-top:24px;margin-bottom:-32px;position:relative;cursor:pointer;overflow:hidden"
     aria-hidden="true"
   >
     <img
+      data-ascii-svg
       src="/figma/wordmark-large-blue.svg"
       alt=""
       loading="lazy"
       decoding="async"
-      style="width:100%;display:block"
+      style="width:100%;display:block;transition:opacity 0.25s ease"
     />
+    <canvas
+      data-ascii-canvas
+      aria-hidden="true"
+      style="position:absolute;left:0;top:0;width:100%;height:100%;opacity:0;transition:opacity 0.25s ease;pointer-events:none;display:block"
+    >
+    </canvas>
   </div>
 </footer>
 

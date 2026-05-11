@@ -213,6 +213,45 @@
     flex-direction: column;
   }
 
+  /* Bench item hover state (matches BenchmarkSection JSX) */
+  .pk-bench-item:hover {
+    border-left-color: var(--pk-ink) !important;
+  }
+  .pk-bench-item:hover .pk-bench-num,
+  .pk-bench-item:hover .pk-bench-title {
+    color: var(--pk-ink) !important;
+  }
+  .pk-bench-item[aria-pressed='true']:hover {
+    border-left-color: var(--pk-brand) !important;
+  }
+  .pk-bench-item[aria-pressed='true']:hover .pk-bench-num,
+  .pk-bench-item[aria-pressed='true']:hover .pk-bench-title {
+    color: var(--pk-brand) !important;
+  }
+
+  /* Slow bloom drift (1 → 1.05 → 1 scale, opacity 0.85 → 1, 6s loop) */
+  @keyframes pk-bloom-drift {
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 0.85;
+    }
+    50% {
+      transform: scale(1.05);
+      opacity: 1;
+    }
+  }
+  .pk-bloom-drift {
+    animation: pk-bloom-drift 6s var(--pk-easing) infinite;
+    transform-origin: center;
+    will-change: transform, opacity;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .pk-bloom-drift {
+      animation: none;
+    }
+  }
+
   /* Reveal-on-scroll (only when JS is enabled) */
   .js .pk-reveal {
     opacity: 0;
