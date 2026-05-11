@@ -1,0 +1,32 @@
+---
+interface Props {
+  color?: string;
+}
+const { color = '#fff' } = Astro.props;
+const path = 'M5 12h14M13 6l6 6-6 6';
+---
+
+<span class="pk-arrow" aria-hidden="true">
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke={color}
+    stroke-width="2"
+    stroke-linecap="square"
+  >
+    <path d={path}></path>
+  </svg>
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke={color}
+    stroke-width="2"
+    stroke-linecap="square"
+  >
+    <path d={path}></path>
+  </svg>
+</span>

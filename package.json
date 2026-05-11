@@ -20,6 +20,7 @@
   "dependencies": {
     "@astrojs/sitemap": "3.2.1",
     "@fontsource/geist-mono": "^5.1.0",
+    "@fontsource/host-grotesk": "^5.2.8",
     "@fontsource/outfit": "^5.1.0",
     "@tailwindcss/vite": "^4.0.0",
     "astro": "^4.16.0",

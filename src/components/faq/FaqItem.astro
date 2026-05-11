@@ -1,20 +1,43 @@
 ---
 interface Props {
   q: string;
-  a: string;
-  index: number;
+  a?: string | undefined;
+  open?: boolean | undefined;
 }
-const { q, a, index } = Astro.props;
-const open = index === 0;
+const { q, a, open = false } = Astro.props;
 ---
 
-<details class="group border-b border-[color:var(--color-line)] py-6" open={open}>
-  <summary class="flex cursor-pointer list-none items-center justify-between gap-6">
-    <span class="pk-h3 font-semibold">{q}</span>
-    <span class="pk-mono text-xl text-[color:var(--color-ink)]" aria-hidden="true">
-      <span class="group-open:hidden">→</span>
-      <span class="hidden group-open:inline">−</span>
+<details class="pk-faq-row" open={open}>
+  <summary
+    style="display:flex;justify-content:space-between;align-items:center;cursor:pointer;list-style:none;gap:24px"
+  >
+    <h3
+      style="margin:0;font:500 28px/1 var(--pk-font-sans);letter-spacing:-0.02em;color:var(--pk-ink-alt)"
+    >
+      {q}
+    </h3>
+    <span
+      class="pk-faq-glyph"
+      aria-hidden="true"
+      style="font:400 24px/1 var(--pk-font-mono);color:var(--pk-ink-alt)"
+    >
+      <span class="pk-faq-glyph-closed">→</span><span class="pk-faq-glyph-open">−</span>
     </span>
   </summary>
-  <p class="pk-body mt-4 max-w-3xl">{a}</p>
+  {a && <p style="margin:16px 0 0;font:300 22px/1.4 var(--pk-font-sans);color:#808080">{a}</p>}
 </details>
+
+<style is:global>
+  .pk-faq-row summary::-webkit-details-marker {
+    display: none;
+  }
+  .pk-faq-row .pk-faq-glyph-open {
+    display: none;
+  }
+  .pk-faq-row[open] .pk-faq-glyph-closed {
+    display: none;
+  }
+  .pk-faq-row[open] .pk-faq-glyph-open {
+    display: inline;
+  }
+</style>

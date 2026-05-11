@@ -1,28 +1,33 @@
 ---
+import Panel from '~/components/panel/Panel.astro';
 import FeatureCard from './FeatureCard.astro';
 ---
 
-<div class="py-24">
-  <p class="pk-reveal"><span class="pk-eyebrow pk-eyebrow--solid">FEATURES</span></p>
-  <h2 id="features-title" class="sr-only">Features</h2>
-  <div class="mt-10 grid gap-6 md:grid-cols-3">
-    <FeatureCard
-      index="1"
-      title="MODULARITY"
-      body="Cleanly separates proving, verification, and compilation into independent components — easy to customize and extend."
-      art="modularity"
-    />
-    <FeatureCard
-      index="2"
-      title="MOBILE FRIENDLY"
-      body="Designed for client-side proving. Generates zero-knowledge proofs directly on a user's device, without heavy server infrastructure."
-      art="mobile"
-    />
-    <FeatureCard
-      index="3"
-      title="LIGHT WEIGHT"
-      body="Built in Rust with optimized field arithmetic. Provekit keeps resource usage minimal so it runs efficiently even on constrained hardware."
-      art="lightweight"
-    />
-  </div>
-</div>
+<Panel
+  tab="CORE FEATURES"
+  titleId="features-title"
+  contentStyle="padding:48px;display:flex;gap:24px;justify-content:space-between;flex-wrap:wrap"
+>
+  <h2 id="features-title" class="sr-only">Core features</h2>
+  <FeatureCard
+    num="1"
+    title="Modularity"
+    borderColor="#BCEEFF"
+    image="/figma/feature-modularity.png"
+    body="Cleanly separates proving, verification, and compilation into independent components, making it easy to customize and extend."
+  />
+  <FeatureCard
+    num="2"
+    title="Mobile friendly"
+    borderColor="#FFE5C6"
+    image="/figma/feature-mobile.png"
+    body="Designed for client-side proving, generates zero-knowledge proofs directly on a user's device without relying on heavy server infrastructure."
+  />
+  <FeatureCard
+    num="3"
+    title="Light weight"
+    borderColor="#FFDEE7"
+    image="/figma/feature-lightweight.png"
+    body="Built in Rust with optimized field arithmetic, Provekit keeps resource usage minimal so it runs efficiently even on constrained hardware."
+  />
+</Panel>

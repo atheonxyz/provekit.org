@@ -1,50 +1,98 @@
 ---
+import Panel from '~/components/panel/Panel.astro';
+import ArrowRight from '~/components/icons/ArrowRight.astro';
 const command = 'cargo install provekit-cli';
 ---
 
-<div class="grid gap-12 py-24 md:grid-cols-2 md:items-center">
-  <div>
-    <p class="pk-reveal"><span class="pk-eyebrow">INSTALL SCRIPT</span></p>
-    <h2 id="install-title" class="pk-h2 pk-reveal mt-4">
-      To install Provekit, run this simple install script.
-    </h2>
-    <p class="pk-body pk-reveal mt-6 max-w-md">
-      Discover Provekit. Check out the comprehensive guide for a seamless introduction and
-      installation.
-    </p>
-    <a href="#" class="pk-btn pk-btn--primary pk-reveal mt-8" data-todo="guide">
-      Read Guide
-      <span aria-hidden="true">→</span>
-    </a>
-  </div>
-
-  <div class="relative isolate">
-    <!-- Soft peach/pink bloom behind the panel (extracted from Figma source) -->
-    <span
-      class="absolute inset-0 -z-10 block opacity-90"
-      style="background:
-        radial-gradient(closest-side at 70% 30%, var(--color-bloom-pink) 0%, transparent 70%),
-        radial-gradient(closest-side at 30% 70%, var(--color-bloom-orange) 0%, transparent 70%);
-        filter: blur(40px);"
-      aria-hidden="true"></span>
-    <figure
-      class="pk-reveal relative overflow-hidden rounded-md border border-[color:var(--color-line)] bg-white"
-    >
-      <figcaption
-        class="flex items-center justify-between border-b border-[color:var(--color-line)] px-4 py-3"
+<Panel
+  tab="INSTALL SCRIPT"
+  titleId="install-title"
+  contentStyle="display:flex;padding:0;align-items:stretch"
+>
+  <div
+    class="pk-reveal"
+    style="flex:1 1 0;padding:72px 48px;display:flex;flex-direction:column;gap:48px;min-width:0"
+  >
+    <div>
+      <h2
+        id="install-title"
+        style="margin:0;font:500 72px/80px var(--pk-font-sans);letter-spacing:-0.02em;color:var(--pk-ink);white-space:pre-line"
       >
-        <span class="pk-mono text-xs text-[color:var(--color-mute)]">BASH</span>
+        {'To install Provekit\nrun this simple install script'}
+      </h2>
+      <p
+        style="margin:16px 0 0;max-width:655px;font:300 24px/32px var(--pk-font-sans);color:var(--pk-mute)"
+      >
+        Discover Provekit. Check out the comprehensive guide for a seamless introduction and
+        installation.
+      </p>
+    </div>
+    <div>
+      <a
+        href="#"
+        class="pk-btn pk-btn--primary"
+        style="height:52px;padding:8px 16px;min-width:208px"
+        data-todo="guide"
+      >
+        READ GUIDE
+        <ArrowRight />
+      </a>
+    </div>
+  </div>
+  <div
+    class="pk-reveal"
+    style="width:600px;padding:72px 48px 72px 0;display:flex;align-items:center;justify-content:center;position:relative;min-width:0"
+  >
+    <!-- Bloom backdrop -->
+    <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none" aria-hidden="true">
+      <div
+        style="position:absolute;left:20%;top:30%;width:220px;height:220px;border-radius:50%;background:#FDCC91;filter:blur(60px);opacity:0.6"
+      >
+      </div>
+      <div
+        style="position:absolute;left:50%;top:10%;width:180px;height:180px;border-radius:50%;background:#FF9AA0;filter:blur(60px);opacity:0.45"
+      >
+      </div>
+    </div>
+    <!-- Code panel -->
+    <div
+      style="position:relative;width:100%;max-width:540px;border:2px solid var(--pk-line);background:#fff"
+    >
+      <div
+        style="display:flex;justify-content:space-between;align-items:stretch;border-bottom:2px solid var(--pk-line)"
+      >
+        <div
+          style="padding:16px 24px;font:400 24px/1 var(--pk-font-mono);letter-spacing:0.02em;color:var(--pk-mute);text-transform:uppercase"
+        >
+          BASH
+        </div>
         <button
           type="button"
-          class="pk-mono text-xs text-[color:var(--color-mute)] hover:text-[color:var(--color-ink)]"
           data-copy={command}
           aria-label="Copy install command"
+          style="width:64px;height:64px;background:#fff;border:0;border-left:1px solid var(--pk-line);display:flex;align-items:center;justify-content:center;cursor:pointer"
         >
-          <span data-copy-label>Copy</span>
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="#949494"
+            stroke-width="2"
+            stroke-linecap="square"
+            aria-hidden="true"
+          >
+            <rect x="9" y="9" width="11" height="11"></rect>
+            <path d="M5 15V5a1 1 0 0 1 1-1h10"></path>
+          </svg>
+          <span class="sr-only" data-copy-label>Copy</span>
         </button>
-      </figcaption>
-      <pre
-        class="overflow-x-auto px-5 py-6 font-mono text-base text-[color:var(--color-ink)]"><code>{command}</code></pre>
-    </figure>
+      </div>
+      <div
+        style="padding:30px;font:400 24px/1 var(--pk-font-mono);letter-spacing:0.02em;color:var(--pk-ink);overflow-x:auto"
+      >
+        {command}
+      </div>
+    </div>
   </div>
-</div>
+</Panel>

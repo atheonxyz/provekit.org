@@ -1,0 +1,29 @@
+---
+interface Props {
+  tab?: string;
+  tabBrand?: boolean;
+  /** Inline style string applied to the inner content wrapper */
+  contentStyle?: string;
+  /** Optional id for aria-labelledby targeting */
+  titleId?: string;
+  /** Inline style string applied to the outer panel section */
+  style?: string;
+}
+const { tab, tabBrand = false, contentStyle = '', titleId, style = '' } = Astro.props;
+---
+
+<section
+  class="pk-panel-section"
+  aria-labelledby={titleId}
+  style={`position:relative;width:1600px;max-width:100%;background:#fff;border:1px solid var(--pk-line);overflow:hidden;${style}`}
+>
+  {
+    tab && (
+      <div class={tabBrand ? 'pk-tab pk-tab--brand' : 'pk-tab'} style="border-top:0;border-left:0">
+        {tab}
+      </div>
+    )
+  }
+  <div style={contentStyle}><slot /></div>
+  <slot name="extras" />
+</section>

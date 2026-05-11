@@ -1,38 +1,65 @@
 ---
 import FaqItem from './FaqItem.astro';
+import ArrowRight from '~/components/icons/ArrowRight.astro';
 import { faqEntries } from '~/content/faq';
 ---
 
-<div class="py-24">
-  <div class="grid gap-12 md:grid-cols-[1fr_2fr] md:items-start">
-    <div>
-      <p class="pk-reveal"><span class="pk-eyebrow">FREQUENTLY ASKED QUESTIONS</span></p>
-      <h2 id="faq-title" class="pk-h2 pk-reveal mt-4">
-        Comprehensive list of answers to all your questions
-      </h2>
+<section
+  style="width:1600px;max-width:100%;background:#fff;border:1px solid var(--pk-line)"
+  aria-labelledby="faq-title"
+>
+  <div class="pk-tab" style="border-top:0;border-left:0">FREQUENTLY ASKED QUESTIONS</div>
 
-      <!-- Z-icon with peach/pink radial bloom -->
-      <figure class="pk-reveal relative mt-16 w-fit" aria-hidden="true">
-        <span
-          class="absolute -inset-12 -z-10 block opacity-90"
-          style="background: radial-gradient(closest-side at 50% 50%, var(--color-bloom-pink) 0%, transparent 70%); filter: blur(40px);"
-        ></span>
-        <img src="/figma/faq-icon.png" alt="" width="220" height="220" loading="lazy" />
-      </figure>
-    </div>
-    <div class="pk-reveal">
-      {faqEntries.map((entry, i) => <FaqItem q={entry.q} a={entry.a} index={i} />)}
+  <div
+    style="padding:72px 48px;display:flex;justify-content:flex-end;position:relative;overflow:hidden"
+  >
+    <img
+      src="/figma/faq-bloom.png"
+      alt=""
+      aria-hidden="true"
+      loading="lazy"
+      decoding="async"
+      style="position:absolute;left:-340px;top:-260px;width:1280px;height:1280px;object-fit:contain;pointer-events:none"
+    />
+    <div
+      class="pk-reveal"
+      style="width:880px;max-width:100%;display:flex;flex-direction:column;gap:48px;position:relative;z-index:1"
+    >
+      <h2
+        id="faq-title"
+        style="margin:0;font:500 72px/72px var(--pk-font-sans);letter-spacing:-0.02em;color:var(--pk-ink);white-space:pre-line"
+      >
+        {'Comprehensive list of\nanswers to all your questions'}
+      </h2>
+      <div style="display:flex;flex-direction:column;gap:36px">
+        {
+          faqEntries.map((entry, i) => (
+            <>
+              <FaqItem q={entry.q} a={entry.a} open={entry.open} />
+              {i < faqEntries.length - 1 && (
+                <div style="border-top:1px solid var(--pk-line)" aria-hidden="true" />
+              )}
+            </>
+          ))
+        }
+      </div>
     </div>
   </div>
 
-  <!-- Need more help? + Contact Us — full-width strip below the FAQ list -->
   <div
-    class="pk-reveal mt-16 flex flex-col items-start justify-between gap-6 border-t border-[color:var(--color-line)] pt-10 md:flex-row md:items-center"
+    style="display:flex;justify-content:space-between;align-items:center;padding:24px;border-top:1px solid var(--pk-line);gap:16px;flex-wrap:wrap"
   >
-    <p class="pk-h2 max-w-xl">Need more information or help?</p>
-    <a href="mailto:hello@provekit.org" class="pk-btn pk-btn--primary" data-todo="contact">
-      Contact Us
-      <span aria-hidden="true">→</span>
+    <div style="font:500 40px/1 var(--pk-font-sans);letter-spacing:-0.02em;color:var(--pk-ink)">
+      Need more information or help?
+    </div>
+    <a
+      href="mailto:hello@provekit.org"
+      class="pk-btn pk-btn--primary"
+      style="height:52px;padding:8px 16px;min-width:208px"
+      data-todo="contact"
+    >
+      CONTACT US
+      <ArrowRight />
     </a>
   </div>
-</div>
+</section>

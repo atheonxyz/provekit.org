@@ -1,52 +1,76 @@
 ---
-const partners = [
-  { letter: 'W', name: 'world', href: '#' },
-  { letter: 'A', name: 'atheon', href: '#' },
-  { letter: 'R', name: 'reilabs', href: '#' },
-];
+import Panel from '~/components/panel/Panel.astro';
+import ArrowRight from '~/components/icons/ArrowRight.astro';
 ---
 
-<div class="grid gap-12 py-24 md:grid-cols-2 md:items-center">
-  <div>
-    <p class="pk-reveal"><span class="pk-eyebrow">BUILT FOR PERFORMANCE AND PRIVACY</span></p>
-    <h2 id="credit-title" class="pk-h2 pk-reveal mt-4">
-      Engineered by some of the best technical brains
+<Panel
+  tab="BUILT FOR PERFORMANCE AND PRIVACY"
+  titleId="credit-title"
+  contentStyle="padding:72px 48px;display:flex;justify-content:flex-start;align-items:stretch;gap:48px;position:relative;min-height:540px"
+>
+  <div
+    class="pk-reveal"
+    style="display:flex;flex-direction:column;gap:48px;position:relative;z-index:1;flex:1 1 0"
+  >
+    <h2
+      id="credit-title"
+      style="margin:0;font:500 72px/80px var(--pk-font-sans);letter-spacing:-0.02em;color:var(--pk-ink);white-space:pre-line"
+    >
+      {'Engineered by some of\nthe best technical brains'}
     </h2>
-    <ul class="pk-reveal mt-8 flex flex-wrap items-center gap-6" data-todo="partner-logos">
-      {
-        partners.map((p) => (
-          <li>
-            <a
-              href={p.href}
-              class="flex items-center gap-2 text-[color:var(--color-mute)] hover:text-[color:var(--color-ink)]"
-            >
-              <span class="pk-mono grid h-8 w-8 place-items-center rounded-full border border-[color:var(--color-line)] text-xs">
-                {p.letter}
-              </span>
-              <span class="pk-mono text-sm">{p.name}</span>
-            </a>
-          </li>
-        ))
-      }
-    </ul>
-    <a href="#" class="pk-btn pk-btn--primary pk-reveal mt-10" data-todo="github">
-      Visit GitHub
-      <span aria-hidden="true">→</span>
-    </a>
+    <div style="display:flex;align-items:center;gap:36px;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;height:48px;padding:0 16px">
+        <img
+          src="/figma/world-logo.svg"
+          alt="World"
+          loading="lazy"
+          decoding="async"
+          style="height:32px;width:auto;display:block;transform:translateY(4px)"
+        />
+      </div>
+      <div style="width:0;height:40px;border-left:2px solid var(--pk-line-soft)" aria-hidden="true">
+      </div>
+      <div style="display:flex;align-items:center;height:48px;padding:0 16px">
+        <img
+          src="/figma/atheon-logo.svg"
+          alt="Atheon"
+          loading="lazy"
+          decoding="async"
+          style="height:36px;width:auto;display:block"
+        />
+      </div>
+      <div style="width:0;height:40px;border-left:2px solid var(--pk-line-soft)" aria-hidden="true">
+      </div>
+      <div style="display:flex;align-items:center;height:48px;padding:0 16px">
+        <img
+          src="/figma/reilabs-logo.svg"
+          alt="Reilabs"
+          loading="lazy"
+          decoding="async"
+          style="height:36px;width:auto;display:block"
+        />
+      </div>
+    </div>
+    <div>
+      <a
+        href="#"
+        class="pk-btn pk-btn--primary"
+        style="height:52px;padding:8px 16px;min-width:237px"
+        data-todo="github"
+      >
+        VISIT GITHUB
+        <ArrowRight />
+      </a>
+    </div>
   </div>
 
-  <figure
-    class="pk-reveal relative w-full justify-self-center md:justify-self-end"
+  <img
+    slot="extras"
+    src="/figma/partners-graphic.png"
+    alt=""
     aria-hidden="true"
-  >
-    <img
-      src="/figma/credit-art.png"
-      alt=""
-      width="1200"
-      height="740"
-      class="w-full rounded-md select-none"
-      loading="lazy"
-      decoding="async"
-    />
-  </figure>
-</div>
+    loading="lazy"
+    decoding="async"
+    style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:right center;display:block;transform:translateX(60px);pointer-events:none"
+  />
+</Panel>

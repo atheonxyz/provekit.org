@@ -1,41 +1,65 @@
 ---
-
+import Panel from '~/components/panel/Panel.astro';
+import ArrowRight from '~/components/icons/ArrowRight.astro';
 ---
 
-<div class="relative overflow-hidden pt-24 pb-32 md:pt-32 md:pb-40">
-  <!-- Decorative dashed-line + circle pattern (extracted from Figma source) -->
+<!-- Decorative pattern strip (hero-bg + grain overlay) -->
+<div
+  aria-hidden="true"
+  style="position:relative;width:1600px;max-width:100%;height:600px;overflow:hidden;background:#fff;border-left:1px solid var(--pk-line);border-right:1px solid var(--pk-line)"
+>
   <img
-    src="/figma/hero-pattern.svg"
+    src="/figma/hero-bg.png"
     alt=""
-    aria-hidden="true"
-    class="pointer-events-none absolute inset-0 h-full w-full select-none"
+    loading="eager"
+    decoding="async"
+    style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block"
   />
-
-  <!-- Soft cyan bloom in the lower right -->
   <div
-    class="pk-bloom pk-bloom--cyan absolute -right-20 bottom-0 h-[60%] w-[55%]"
-    aria-hidden="true"
+    style="position:absolute;inset:0;background:url('/figma/grain-texture.png') center/cover;opacity:0.18;mix-blend-mode:overlay;pointer-events:none"
   >
   </div>
+</div>
 
-  <div class="relative max-w-4xl">
-    <p class="pk-reveal"><span class="pk-eyebrow pk-eyebrow--solid">INTRODUCING PROVEKIT</span></p>
-    <h1 id="hero-title" class="pk-display pk-reveal mt-6">
-      Client-side zero-knowledge, <br />built for the real world.
+<!-- Headline panel -->
+<Panel
+  tab="INTRODUCING PROVEKIT"
+  tabBrand
+  titleId="hero-title"
+  contentStyle="padding:72px 48px;display:flex;flex-direction:column;gap:48px"
+>
+  <div class="pk-reveal">
+    <h1
+      id="hero-title"
+      style="margin:0;font:500 72px/80px var(--pk-font-sans);letter-spacing:-0.02em;color:var(--pk-ink);white-space:pre-line"
+    >
+      {'Client-side zero-knowledge,\nbuilt for the real world'}
     </h1>
-    <p class="pk-body pk-reveal mt-8 max-w-2xl">
+    <p
+      style="margin:16px 0 0;max-width:655px;font:300 24px/32px var(--pk-font-sans);color:var(--pk-mute)"
+    >
       Provekit is a lightweight, modular ZK toolkit designed from the ground up for client-side
       execution.
     </p>
-    <div class="pk-reveal mt-10 flex flex-wrap gap-3">
-      <a href="#" class="pk-btn pk-btn--secondary" data-todo="repo">
-        Visit Repo
-        <span aria-hidden="true">{'{ }'}</span>
-      </a>
-      <a href="#" class="pk-btn pk-btn--primary" data-todo="docs">
-        Explore Docs
-        <span aria-hidden="true">→</span>
-      </a>
-    </div>
   </div>
-</div>
+  <div class="pk-reveal" style="display:flex;gap:24px;flex-wrap:wrap">
+    <a
+      href="#"
+      class="pk-btn pk-btn--secondary"
+      style="height:52px;padding:8px 16px;min-width:208px"
+      data-todo="repo"
+    >
+      VISIT REPO
+      <span style="font:400 22px/1 var(--pk-font-mono);letter-spacing:0.02em">{'{ }'}</span>
+    </a>
+    <a
+      href="#"
+      class="pk-btn pk-btn--primary"
+      style="height:52px;padding:8px 16px;min-width:237px"
+      data-todo="docs"
+    >
+      EXPLORE DOCS
+      <ArrowRight />
+    </a>
+  </div>
+</Panel>

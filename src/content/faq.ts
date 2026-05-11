@@ -1,31 +1,17 @@
 export interface FaqEntry {
   q: string;
-  a: string;
+  a?: string;
+  open?: boolean;
 }
 
+// Exact copy from the Figma source.
 export const faqEntries: FaqEntry[] = [
   {
     q: 'What exactly is Provekit?',
-    a: "A lightweight, modular zero-knowledge proving toolkit written in Rust. It is designed for client-side execution, so proofs can be generated directly on a user's device — including mobile — without heavy server infrastructure.",
+    a: 'Provekit is a lightweight assertion and verification library for JavaScript and TypeScript. It lets you write expressive, readable checks for both runtime validation and unit tests without pulling in a full testing framework.',
+    open: true,
   },
-  {
-    q: 'Does it work in the browser?',
-    a: 'Yes. Provekit compiles to WebAssembly and runs in modern browsers, with a footprint small enough to ship in production web apps.',
-  },
-  {
-    q: 'What ZK proof system does it use?',
-    a: 'Provekit uses a SNARK backend optimized for client-side proving and on-chain verification. See the docs for current scheme details and roadmap.',
-  },
-  {
-    q: 'How does it compare to other ZK toolkits?',
-    a: 'On commodity hardware, Provekit generates proofs ~36% faster than comparable client-side toolkits and uses ~24% less memory. See the benchmarks page for the full methodology.',
-  },
-  {
-    q: 'Is it production-ready?',
-    a: 'Provekit is actively developed by World, Atheon, and Reilabs and is being used in production-track integrations. Treat the latest release notes and benchmarks as the source of truth.',
-  },
-  {
-    q: 'Where can I get help?',
-    a: 'Open an issue on GitHub or join the Telegram listed in the footer.',
-  },
+  { q: 'Does it work in the browser?' },
+  { q: 'Is TypeScript supported?' },
+  { q: 'Can I use it for runtime validation in production?' },
 ];

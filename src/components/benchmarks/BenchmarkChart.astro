@@ -1,50 +1,134 @@
 ---
-const series = [
-  { key: 'toolkit1', label: 'TOOLKIT 1', color: 'var(--color-toolkit-1)' },
-  { key: 'toolkit2', label: 'TOOLKIT 2', color: 'var(--color-toolkit-2)' },
-  { key: 'provekit', label: 'PROVEKIT', color: 'var(--color-toolkit-3)' },
-] as const;
+// Static line chart for the active metric (Proving time @ 2¹⁰…2²²)
+const CHART_W = 640;
+const CHART_H = 320;
+const PAD_L = 56;
+const PAD_R = 24;
+const PAD_T = 24;
+const PAD_B = 48;
+const INNER_W = CHART_W - PAD_L - PAD_R;
+const INNER_H = CHART_H - PAD_T - PAD_B;
 
-// One bar per metric, in the toolkit colour assigned to that metric (from Figma).
-const bars = [
-  { metric: 'METRIC 1', width: 28, color: 'var(--color-toolkit-1)' },
-  { metric: 'METRIC 2', width: 60, color: 'var(--color-toolkit-2)' },
-  { metric: 'METRIC 3', width: 92, color: 'var(--color-toolkit-3)' },
+const xLabels = ['2¹⁰', '2¹⁴', '2¹⁸', '2²²'];
+const yMax = 40;
+const unit = 's';
+const series = [
+  { label: 'TOOLKIT 1', color: '#DE00FF', values: [0.6, 2.4, 9.5, 38.4] },
+  { label: 'TOOLKIT 2', color: '#E91900', values: [0.4, 1.5, 6.0, 24.0] },
+  { label: 'PROVEKIT', color: '#0D74FF', values: [0.18, 0.7, 2.8, 11.2] },
 ];
+
+const xAt = (i: number) => PAD_L + (INNER_W * i) / (xLabels.length - 1);
+const yAt = (v: number) => PAD_T + INNER_H * (1 - v / yMax);
+
+const yTicks = [0, 0.25, 0.5, 0.75, 1].map((t) => t * yMax);
+
+function fmt(v: number) {
+  const n = v >= 10 ? Math.round(v) : Math.round(v * 10) / 10;
+  return `${n}${unit}`;
+}
+
+function path(values: number[]) {
+  return values.map((v, i) => `${i === 0 ? 'M' : 'L'} ${xAt(i)} ${yAt(v)}`).join(' ');
+}
 ---
 
-<figure class="space-y-8" aria-labelledby="bench-chart-label">
-  <figcaption id="bench-chart-label" class="sr-only">
-    Illustrative benchmark comparison; longer bars are better. {
-      bars.map((b) => `${b.metric.toLowerCase()} bar reaches ${b.width}%`).join('. ')
-    }. Numbers are illustrative until full methodology is published.
-  </figcaption>
+<svg
+  viewBox={`0 0 ${CHART_W} ${CHART_H}`}
+  style="width:100%;height:auto;display:block"
+  aria-labelledby="bench-chart-title"
+  role="img"
+>
+  <title id="bench-chart-title">
+    Proving time across circuit sizes for Toolkit 1, Toolkit 2 and Provekit; Provekit is fastest at
+    every size.
+  </title>
 
-  <div class="flex flex-wrap items-center gap-3">
-    {
-      series.map((s) => (
-        <span class="pk-eyebrow">
-          <span class="mr-2 inline-block h-2 w-2 rounded-sm" style={`background:${s.color}`} />
-          {s.label}
-        </span>
-      ))
-    }
-  </div>
+  {/* Gridlines + y ticks */}
+  {
+    yTicks.map((v) => (
+      <g>
+        <line
+          x1={PAD_L}
+          x2={CHART_W - PAD_R}
+          y1={yAt(v)}
+          y2={yAt(v)}
+          stroke="var(--pk-line)"
+          stroke-dasharray="3 4"
+        />
+        <text
+          x={PAD_L - 10}
+          y={yAt(v) + 4}
+          font-size="12"
+          fill="#808080"
+          text-anchor="end"
+          font-family="var(--pk-font-mono)"
+          letter-spacing="0.04em"
+        >
+          {fmt(v)}
+        </text>
+      </g>
+    ))
+  }
 
-  <div class="space-y-5" aria-hidden="true">
-    {
-      bars.map((b) => (
-        <div class="flex items-center gap-4">
-          <div class="h-4 flex-1 overflow-hidden rounded-sm bg-[color:var(--color-line-soft)]">
-            <div class="h-full rounded-sm" style={`width:${b.width}%;background:${b.color}`} />
-          </div>
-          <span class="pk-mono w-20 text-xs text-[color:var(--color-mute)]">{b.metric}</span>
-        </div>
-      ))
-    }
-  </div>
+  {/* Baseline axis */}
+  <line
+    x1={PAD_L}
+    x2={CHART_W - PAD_R}
+    y1={CHART_H - PAD_B}
+    y2={CHART_H - PAD_B}
+    stroke="var(--pk-ink)"
+    stroke-width="1"></line>
 
-  <p class="pk-mono text-[10px] text-[color:var(--color-mute)]">
-    Illustrative until full methodology is published &mdash; see All Benchmarks.
-  </p>
-</figure>
+  {/* X labels */}
+  {
+    xLabels.map((l, i) => (
+      <text
+        x={xAt(i)}
+        y={CHART_H - PAD_B + 22}
+        font-size="12"
+        fill="#808080"
+        text-anchor="middle"
+        font-family="var(--pk-font-mono)"
+        letter-spacing="0.04em"
+      >
+        {l}
+      </text>
+    ))
+  }
+
+  <text
+    x={PAD_L + INNER_W / 2}
+    y={CHART_H - 6}
+    font-size="10"
+    fill="#808080"
+    text-anchor="middle"
+    font-family="var(--pk-font-mono)"
+    letter-spacing="0.08em"
+  >
+    CIRCUIT SIZE
+  </text>
+
+  {/* Series lines */}
+  {
+    series.map((s) => (
+      <path
+        d={path(s.values)}
+        fill="none"
+        stroke={s.color}
+        stroke-width={s.label === 'PROVEKIT' ? 3 : 2}
+        stroke-linejoin="round"
+        stroke-linecap="round"
+      />
+    ))
+  }
+
+  {/* Endpoint dots */}
+  {
+    series.map((s) =>
+      s.values.map((v, i) => (
+        <circle cx={xAt(i)} cy={yAt(v)} r="3.5" fill={s.color} stroke={s.color} stroke-width="2" />
+      )),
+    )
+  }
+</svg>

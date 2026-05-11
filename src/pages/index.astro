@@ -14,35 +14,20 @@ import SiteFooter from '~/components/footer/SiteFooter.astro';
   title="Provekit — Client-side zero-knowledge, built for the real world"
   description="Provekit is a lightweight, modular ZK toolkit designed from the ground up for client-side execution."
 >
-  <header class="pk-gutter pt-6">
-    <TopBar />
-  </header>
-  <main id="main">
-    <section aria-labelledby="hero-title" class="pk-gutter">
-      <Hero />
-    </section>
+  <TopBar />
+  <main id="main" class="pk-stage">
+    <Hero />
     <div class="pk-strip" aria-hidden="true"></div>
-    <section aria-labelledby="install-title" class="pk-gutter">
-      <InstallScript />
-    </section>
+    <InstallScript />
     <div class="pk-strip" aria-hidden="true"></div>
-    <section aria-labelledby="features-title" class="pk-gutter">
-      <FeatureGrid />
-    </section>
+    <FeatureGrid />
     <div class="pk-strip" aria-hidden="true"></div>
-    <section aria-labelledby="credit-title" class="pk-gutter">
-      <EngineeringCredit />
-    </section>
+    <EngineeringCredit />
     <div class="pk-strip" aria-hidden="true"></div>
-    <section aria-labelledby="benchmarks-title" class="pk-gutter">
-      <Benchmarks />
-    </section>
+    <Benchmarks />
     <div class="pk-strip" aria-hidden="true"></div>
-    <section aria-labelledby="faq-title" class="pk-gutter">
-      <Faq />
-    </section>
-  </main>
-  <footer class="pk-gutter">
+    <Faq />
+    <div class="pk-strip" aria-hidden="true"></div>
     <SiteFooter />
-  </footer>
+  </main>
 </BaseLayout>

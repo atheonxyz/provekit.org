@@ -1,47 +1,70 @@
 ---
-const product = [
-  { label: 'DOCS', href: '#', todo: 'docs' },
-  { label: 'GUIDE', href: '#', todo: 'guide' },
-  { label: 'BENCHMARKS', href: '#', todo: 'benchmarks' },
-];
-const community = [
-  { label: 'TELEGRAM', href: '#', todo: 'telegram' },
-  { label: 'TWITTER', href: '#', todo: 'twitter' },
-  { label: 'GITHUB', href: '#', todo: 'github' },
-];
-const year = new Date().getFullYear();
+const product = ['DOCS', 'GUIDE', 'BENCHMARKS'];
+const community = ['TELEGRAM', 'TWITTER', 'GITHUB'];
 ---
 
-<div class="border-t border-[color:var(--color-line)] py-16">
-  <div class="grid gap-12 md:grid-cols-[1fr_auto] md:items-start">
-    <div>
-      <a href="/" class="pk-mono text-sm font-medium tracking-[0.12em]">PROVEKIT</a>
-      <p class="pk-body mt-4 max-w-xs text-base">
-        Client-side zero-knowledge, built for the real world.
-      </p>
+<footer
+  style="width:1600px;max-width:100%;padding:48px 24px 24px;display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden;border-left:1px solid var(--pk-line);border-right:1px solid var(--pk-line);box-sizing:border-box"
+>
+  <div
+    style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap"
+  >
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      {
+        product.map((label) => (
+          <a class="pk-chip" href="#" data-todo={label.toLowerCase()}>
+            {label}
+          </a>
+        ))
+      }
     </div>
-    <div class="flex flex-wrap items-start gap-12 md:flex-nowrap">
-      <nav aria-label="Product" class="flex flex-col items-start gap-2">
-        {
-          product.map((l) => (
-            <a href={l.href} class="pk-eyebrow" data-todo={l.todo}>
-              {l.label}
-            </a>
-          ))
-        }
-      </nav>
-      <nav aria-label="Community" class="flex flex-col items-start gap-2">
-        {
-          community.map((l) => (
-            <a href={l.href} class="pk-eyebrow" data-todo={l.todo}>
-              {l.label}
-            </a>
-          ))
-        }
-      </nav>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      {
+        community.map((label) => (
+          <a class="pk-chip" href="#" data-todo={label.toLowerCase()}>
+            {label}
+          </a>
+        ))
+      }
     </div>
   </div>
-  <p class="pk-mono mt-12 text-xs text-[color:var(--color-mute)]">
-    © {year} Provekit · World × Atheon × Reilabs
-  </p>
-</div>
+
+  <!-- Giant Provekit wordmark, full-bleed, clipped at the bottom -->
+  <div
+    style="width:100%;margin-top:24px;margin-bottom:-32px;position:relative;overflow:hidden"
+    aria-hidden="true"
+  >
+    <img
+      src="/figma/wordmark-large-blue.svg"
+      alt=""
+      loading="lazy"
+      decoding="async"
+      style="width:100%;display:block"
+    />
+  </div>
+</footer>
+
+<style is:global>
+  .pk-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    border: 1px solid var(--pk-line);
+    background: transparent;
+    font: 400 18px/1 var(--pk-font-mono);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--pk-ink);
+    cursor: pointer;
+    text-decoration: none;
+    transition:
+      background 0.18s ease,
+      color 0.18s ease,
+      border-color 0.18s ease;
+  }
+  .pk-chip:hover {
+    background: var(--pk-brand);
+    color: #fff;
+    border-color: var(--pk-brand);
+  }
+</style>

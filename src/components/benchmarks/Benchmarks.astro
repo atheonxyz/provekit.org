@@ -1,68 +1,138 @@
 ---
+import ArrowRight from '~/components/icons/ArrowRight.astro';
 import BenchmarkChart from './BenchmarkChart.astro';
-const points = [
+
+const metrics = [
   {
-    n: '1.',
+    num: 1,
     title: 'Proving time',
     body: 'Provekit generates proofs ~36% faster than comparable client-side toolkits on commodity hardware.',
+    active: true,
   },
   {
-    n: '2.',
+    num: 2,
     title: 'Memory footprint',
     body: 'A streamlined Rust core keeps the resident set ~24% lighter than the next nearest toolkit.',
+    active: false,
   },
   {
-    n: '3.',
+    num: 3,
     title: 'Verification cost',
-    body: 'Verifier circuits compile to a fraction of the gate count, keeping cost low on chain and off.',
+    body: 'Verifier circuits compile to a fraction of the gate count, keeping verification cheap on chain and off.',
+    active: false,
   },
 ];
+
+const legend = [
+  { label: 'TOOLKIT 1', color: '#DE00FF' },
+  { label: 'TOOLKIT 2', color: '#E91900' },
+  { label: 'PROVEKIT', color: '#0D74FF' },
+];
+
+const kpis = ['+36% Faster', '11.2s @ 2²²'];
 ---
 
-<div class="py-24">
-  <div class="grid gap-12 md:grid-cols-2 md:items-start">
-    <div>
-      <p class="pk-reveal"><span class="pk-eyebrow">BENCHMARKS</span></p>
-      <h2 id="benchmarks-title" class="pk-h2 pk-reveal mt-4">
-        A client-side ZK toolkit that excels in every aspect.
+<section style="width:1600px;max-width:100%;display:flex" aria-labelledby="benchmarks-title">
+  <!-- LEFT -->
+  <div
+    style="flex:1 1 0;background:#fff;border:1px solid var(--pk-line);display:flex;flex-direction:column;min-width:0"
+  >
+    <div class="pk-tab" style="border-top:0;border-left:0">BENCHMARKS</div>
+    <div style="padding:108px 48px;display:flex;flex-direction:column;gap:36px">
+      <h2
+        id="benchmarks-title"
+        class="pk-reveal"
+        style="margin:0;font:500 64px/72px var(--pk-font-sans);letter-spacing:-0.02em;color:var(--pk-ink);white-space:pre-line"
+      >
+        {'A client-side ZK toolkit\nthat excels in every aspect'}
       </h2>
-      <ol class="pk-reveal mt-10 space-y-8">
+      <ol
+        class="pk-reveal"
+        style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:24px"
+      >
         {
-          points.map((p) => (
-            <li class="grid grid-cols-[auto_1fr] gap-4">
-              <span class="pk-mono text-sm" style="color:var(--color-brand)">
-                {p.n}
-              </span>
-              <div>
-                <div class="pk-mono text-sm">{p.title}</div>
-                <p class="pk-body mt-2 text-base">{p.body}</p>
-              </div>
-            </li>
+          metrics.map((m, i) => (
+            <>
+              <li
+                style={`cursor:pointer;display:flex;flex-direction:column;gap:8px;padding:4px 0 4px 16px;border-left:3px solid ${m.active ? 'var(--pk-brand)' : 'transparent'};margin-left:-19px`}
+              >
+                <div
+                  style={`font:500 28px/1 var(--pk-font-sans);color:${m.active ? 'var(--pk-brand)' : 'var(--pk-ink)'}`}
+                >
+                  {m.num}.
+                </div>
+                <h3
+                  style={`margin:0;font:500 28px/1 var(--pk-font-sans);letter-spacing:-0.02em;color:${m.active ? 'var(--pk-brand)' : 'var(--pk-ink)'}`}
+                >
+                  {m.title}
+                </h3>
+                <p style="margin:0;font:300 22px/1.4 var(--pk-font-sans);color:var(--pk-mute-2)">
+                  {m.body}
+                </p>
+              </li>
+              {i < metrics.length - 1 && (
+                <div style="border-top:2px solid var(--pk-line)" aria-hidden="true" />
+              )}
+            </>
           ))
         }
       </ol>
-      <a href="#" class="pk-btn pk-btn--primary pk-reveal mt-10" data-todo="benchmarks">
-        All Benchmarks
-        <span aria-hidden="true">→</span>
-      </a>
-    </div>
-
-    <div class="pk-reveal rounded-md border border-[color:var(--color-line)] bg-white p-8">
-      <BenchmarkChart />
+      <div>
+        <a
+          href="#"
+          class="pk-btn pk-btn--primary pk-reveal"
+          style="height:52px;padding:8px 16px;min-width:266px"
+          data-todo="benchmarks"
+        >
+          ALL BENCHMARKS
+          <ArrowRight />
+        </a>
+      </div>
     </div>
   </div>
 
-  <!-- +36% / +24% headline strip — plain white panels with thin border, no bloom -->
+  <!-- RIGHT -->
   <div
-    class="pk-reveal mt-12 grid w-full grid-cols-1 border border-[color:var(--color-line)] md:grid-cols-2"
+    style="flex:1 1 0;background:#fff;border:1px solid var(--pk-line);border-left:0;display:flex;flex-direction:column;justify-content:space-between;min-width:0"
   >
-    <div
-      class="flex items-center justify-center border-[color:var(--color-line)] bg-white px-6 py-12 md:border-r md:py-16"
-    >
-      <span class="pk-display text-[clamp(48px,5vw,72px)]">+36% Faster</span>
+    <div style="padding:72px 48px;display:flex;flex-direction:column;flex:1">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
+        <span
+          style="font:400 14px/1 var(--pk-font-mono);letter-spacing:0.08em;text-transform:uppercase;color:#808080"
+        >
+          Proving time · Line
+        </span>
+      </div>
+      <div
+        class="pk-reveal"
+        style="flex:1;display:flex;flex-direction:column;justify-content:center;position:relative"
+      >
+        <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:32px">
+          {
+            legend.map((s) => (
+              <div style="display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border:1px solid var(--pk-line);font:400 18px/1 var(--pk-font-mono);letter-spacing:0.02em;text-transform:uppercase">
+                <span
+                  style={`width:12px;height:12px;background:${s.color};display:inline-block`}
+                  aria-hidden="true"
+                />
+                {s.label}
+              </div>
+            ))
+          }
+        </div>
+        <BenchmarkChart />
+      </div>
     </div>
-    <div class="flex items-center justify-center bg-white px-6 py-12 md:py-16">
-      <span class="pk-display text-[clamp(48px,5vw,72px)]">+24% Lighter</span>
+    <div style="display:flex">
+      {
+        kpis.map((k, i) => (
+          <div
+            style={`flex:1;padding:48px 24px;text-align:center;border-top:1px solid var(--pk-line);${i < kpis.length - 1 ? 'border-right:1px solid var(--pk-line);' : ''}font:300 48px/1 var(--pk-font-sans);letter-spacing:-0.02em`}
+          >
+            {k}
+          </div>
+        ))
+      }
     </div>
   </div>
-</div>
+</section>

@@ -1,33 +1,52 @@
 ---
-
+import ArrowRight from '~/components/icons/ArrowRight.astro';
 ---
 
-<nav class="flex items-center justify-between" aria-label="Primary">
-  <a href="/" class="pk-mono text-sm font-medium tracking-[0.12em]" aria-label="Provekit home">
-    PROVEKIT
-  </a>
-  <div class="flex items-center gap-2">
-    <a
-      href="#"
-      class="pk-mono inline-flex h-9 items-center gap-2 rounded-full bg-[color:var(--color-brand)] px-4 text-xs text-white hover:bg-[color:var(--color-brand-hover)]"
-      data-todo="docs"
-    >
-      DOCS
-      <span aria-hidden="true">→</span>
-    </a>
-    <button
-      type="button"
-      class="grid h-9 w-9 place-items-center rounded-full border border-[color:var(--color-line)] text-[color:var(--color-ink)]"
-      aria-label="Open menu"
-    >
-      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
-        <path
-          d="M4 7h16M4 12h16M4 17h16"
-          stroke="currentColor"
-          stroke-width="1.5"
-          stroke-linecap="round"
-          fill="none"></path>
-      </svg>
-    </button>
+<header
+  style="position:sticky;top:0;z-index:50;width:100vw;margin-left:calc(50% - 50vw);height:76px;background:#fff;border-bottom:1px solid var(--pk-line);display:flex;justify-content:center"
+>
+  <div
+    style="width:1600px;max-width:100%;height:100%;box-sizing:border-box;display:flex;justify-content:space-between;align-items:center;border-left:1px solid var(--pk-line);border-right:1px solid var(--pk-line)"
+  >
+    <div style="display:flex;align-items:center;padding:0 24px;height:48px;margin-left:16px">
+      <a href="/" aria-label="Provekit home" style="display:block;line-height:0" data-todo="home">
+        <img
+          src="/figma/wordmark-black.svg"
+          alt="Provekit"
+          loading="eager"
+          decoding="async"
+          style="height:24px;display:block"
+        />
+      </a>
+    </div>
+    <div style="display:flex;align-items:center;margin-right:16px">
+      <a
+        href="#"
+        class="pk-btn pk-btn--primary"
+        style="height:52px;padding-left:16px;padding-right:16px"
+        data-todo="docs"
+      >
+        DOCS
+        <ArrowRight />
+      </a>
+      <button
+        type="button"
+        aria-label="Open menu"
+        style="width:56px;height:52px;background:#fff;border:1px solid var(--pk-line);border-left:0;display:flex;align-items:center;justify-content:center;cursor:pointer"
+      >
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="#2D2D2B"
+          stroke-width="2"
+          stroke-linecap="square"
+          aria-hidden="true"
+        >
+          <path d="M3 6h18M3 12h18M3 18h18"></path>
+        </svg>
+      </button>
+    </div>
   </div>
-</nav>
+</header>
