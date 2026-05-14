@@ -1231,10 +1231,12 @@ import ArrowRight from '~/components/icons/ArrowRight.astro';
       try {
         const { Verity, Backend } = await import('@atheonxyz/verity');
         const hasSAB = typeof SharedArrayBuffer !== 'undefined';
-        const isIos = /iPhone|iPad|iPod/.test(navigator.userAgent);
-        // iOS WebKit's threaded WASM is unreliable; force single-thread there.
-        // Everywhere else use full hardware concurrency for max parallelism.
-        const threads = isIos || !hasSAB ? false : navigator.hardwareConcurrency || 4;
+        // Vendored verity WASM is threaded-only; falling back to threads:false
+        // throws "backend not available". Use the available SAB threads, capped
+        // low on mobile so a phone doesn't spin up 8 workers it can't sustain.
+        const isMobile = /iPhone|iPad|iPod|Android/.test(navigator.userAgent);
+        const cap = isMobile ? 2 : navigator.hardwareConcurrency || 4;
+        const threads = hasSAB ? cap : false;
         const bootStart = performance.now();
         runtime = await Verity.create(Backend.ProveKit, { threads });
         runtimeBootMs = performance.now() - bootStart;
@@ -1252,9 +1254,14 @@ import ArrowRight from '~/components/icons/ArrowRight.astro';
         updateInputMeta();
       } catch (e) {
         console.error('runtime boot failed', e);
-        lastError = e instanceof Error ? e.message : String(e);
+        const sab = typeof SharedArrayBuffer !== 'undefined';
+        const coi = (globalThis as any).crossOriginIsolated;
+        const diag = `SAB=${sab} COI=${coi} HC=${navigator.hardwareConcurrency} | `;
+        lastError = diag + (e instanceof Error ? e.message : String(e));
         phase = 'error';
         if (statusLabelEl) statusLabelEl.textContent = 'RUNTIME ERROR';
+        const goLabelEl = document.querySelector('[data-demo-go-label]');
+        if (goLabelEl) goLabelEl.textContent = lastError.slice(0, 120);
         updateKpis();
       }
     })();
