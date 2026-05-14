@@ -12,3 +12,6 @@ test-results
 *.log
 .omc
 .omx
+# local probe scripts
+*-probe.mjs
+pk-probe*.mjs

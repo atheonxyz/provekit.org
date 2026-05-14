@@ -368,12 +368,20 @@ const legend = [
       }, 220);
     }
 
+    function selectMetric(idx: number) {
+      setActive(idx);
+      if (window.matchMedia('(max-width: 720px)').matches) {
+        root
+          .querySelector<HTMLElement>(`[data-chart="${idx}"]`)
+          ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }
     items.forEach((el, i) => {
-      el.addEventListener('click', () => setActive(i));
+      el.addEventListener('click', () => selectMetric(i));
       el.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
-          setActive(i);
+          selectMetric(i);
         }
       });
     });

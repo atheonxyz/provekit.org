@@ -24,17 +24,21 @@ import ArrowRight from '~/components/icons/ArrowRight.astro';
 <Panel tab="LIVE DEMO" tabBrand titleId="demo-title" contentClass="pk-demo-grid">
   <div class="pk-demo-left">
     <div>
-      <div class="pk-demo-eyebrow">Run on this device · WebAssembly · no server</div>
+      <div class="pk-demo-eyebrow">
+        Run on this device <span class="pk-demo-mobile-hide">· WebAssembly </span>· no server
+      </div>
       <h2
         id="demo-title"
         class="pk-display-headline pk-demo-h"
         style="margin:0;font:500 56px/64px var(--pk-font-sans);letter-spacing:-0.02em;color:var(--pk-ink);white-space:pre-line"
       >
-        {'Try ProveKit\nright here, right now'}
+        <span class="pk-demo-mobile-hide">{'Try ProveKit\nright here, right now'}</span>
+        <span class="pk-demo-mobile-only">Try the demo</span>
       </h2>
       <p class="pk-sub-deck pk-demo-sub">
         Pick a circuit, edit the private input, and generate a real zero-knowledge proof in your
-        browser. Witness never leaves this page; only the public hash + proof get published.
+        browser.<span class="pk-demo-mobile-hide">
+          Witness never leaves this page; only the public hash + proof get published.</span>
       </p>
     </div>
 
@@ -103,7 +107,7 @@ import ArrowRight from '~/components/icons/ArrowRight.astro';
       </div>
       <div class="pk-demo-card pk-demo-card-ink">
         <div class="pk-demo-statement" data-demo-statement
-          >I know x of length L such that SHA256(x) = y</div
+          >I know x such that SHA256(x) = y</div
         >
         <div class="pk-demo-hash">
           <span class="pk-demo-hash-label">y</span>
@@ -184,6 +188,17 @@ import ArrowRight from '~/components/icons/ArrowRight.astro';
     text-transform: uppercase;
     color: var(--pk-mute-2);
     margin-bottom: 16px;
+  }
+  .pk-demo-mobile-only {
+    display: none;
+  }
+  @media (max-width: 720px) {
+    .pk-demo-mobile-hide {
+      display: none !important;
+    }
+    .pk-demo-mobile-only {
+      display: inline !important;
+    }
   }
   .pk-demo-sub {
     margin: 16px 0 0;
@@ -640,6 +655,7 @@ import ArrowRight from '~/components/icons/ArrowRight.astro';
     }
     .pk-demo-go,
     .pk-demo-reset {
+      flex: 0 0 auto !important;
       height: 72px !important;
       width: 100% !important;
       font-size: 16px !important;
@@ -721,7 +737,7 @@ import ArrowRight from '~/components/icons/ArrowRight.astro';
       sha: {
         key: 'sha',
         label: 'SHA-256 preimage',
-        statement: 'I know x of length L such that SHA256(x) = y',
+        statement: 'I know x such that SHA256(x) = y',
         inputHint: 'Text is zero-padded to 1024 bytes; only `len` bytes are hashed',
         defaultText: 'hello, provekit',
         maxBytes: 1024,
